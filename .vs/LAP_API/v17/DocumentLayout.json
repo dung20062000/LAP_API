@@ -3,12 +3,20 @@
   "WorkspaceRootPath": "D:\\DungBT\\DuAn\\Lap\\LAP_API\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{FCFFEAA0-422A-402F-9B19-1E1C29B7B748}|LAP_API\\LAP_API.csproj|d:\\dungbt\\duan\\lap\\lap_api\\lap_api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{FCFFEAA0-422A-402F-9B19-1E1C29B7B748}|LAP_API\\LAP_API.csproj|solutionrelative:lap_api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{FCFFEAA0-422A-402F-9B19-1E1C29B7B748}|LAP_API\\LAP_API.csproj|d:\\dungbt\\duan\\lap\\lap_api\\lap_api\\controllers\\weatherforecastcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FCFFEAA0-422A-402F-9B19-1E1C29B7B748}|LAP_API\\LAP_API.csproj|solutionrelative:lap_api\\controllers\\weatherforecastcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FCFFEAA0-422A-402F-9B19-1E1C29B7B748}|LAP_API\\LAP_API.csproj|d:\\dungbt\\duan\\lap\\lap_api\\lap_api\\weatherforecast.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FCFFEAA0-422A-402F-9B19-1E1C29B7B748}|LAP_API\\LAP_API.csproj|solutionrelative:lap_api\\weatherforecast.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{FCFFEAA0-422A-402F-9B19-1E1C29B7B748}|LAP_API\\LAP_API.csproj|d:\\dungbt\\duan\\lap\\lap_api\\lap_api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FCFFEAA0-422A-402F-9B19-1E1C29B7B748}|LAP_API\\LAP_API.csproj|solutionrelative:lap_api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FCFFEAA0-422A-402F-9B19-1E1C29B7B748}|LAP_API\\LAP_API.csproj|d:\\dungbt\\duan\\lap\\lap_api\\lap_api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{FCFFEAA0-422A-402F-9B19-1E1C29B7B748}|LAP_API\\LAP_API.csproj|solutionrelative:lap_api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,11 +26,37 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "WeatherForecast.cs",
+              "DocumentMoniker": "D:\\DungBT\\DuAn\\Lap\\LAP_API\\LAP_API\\WeatherForecast.cs",
+              "RelativeDocumentMoniker": "LAP_API\\WeatherForecast.cs",
+              "ToolTip": "D:\\DungBT\\DuAn\\Lap\\LAP_API\\LAP_API\\WeatherForecast.cs",
+              "RelativeToolTip": "LAP_API\\WeatherForecast.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-26T01:24:32.196Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "WeatherForecastController.cs",
+              "DocumentMoniker": "D:\\DungBT\\DuAn\\Lap\\LAP_API\\LAP_API\\Controllers\\WeatherForecastController.cs",
+              "RelativeDocumentMoniker": "LAP_API\\Controllers\\WeatherForecastController.cs",
+              "ToolTip": "D:\\DungBT\\DuAn\\Lap\\LAP_API\\LAP_API\\Controllers\\WeatherForecastController.cs",
+              "RelativeToolTip": "LAP_API\\Controllers\\WeatherForecastController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-26T01:25:22.525Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "appsettings.json",
               "DocumentMoniker": "D:\\DungBT\\DuAn\\Lap\\LAP_API\\LAP_API\\appsettings.json",
               "RelativeDocumentMoniker": "LAP_API\\appsettings.json",
@@ -35,7 +69,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "Program.cs",
               "DocumentMoniker": "D:\\DungBT\\DuAn\\Lap\\LAP_API\\LAP_API\\Program.cs",
               "RelativeDocumentMoniker": "LAP_API\\Program.cs",

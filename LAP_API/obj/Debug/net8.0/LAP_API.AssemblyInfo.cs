@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("LAP_API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4b1183497b1a8acb0bb04c4ca79bbca9ce715be9")]
 [assembly: System.Reflection.AssemblyProductAttribute("LAP_API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LAP_API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

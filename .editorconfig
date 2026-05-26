@@ -1,0 +1,223 @@
+---
+description: C# / .NET 8 coding standards for LAP_API
+alwaysApply: true
+---
+
+# C# / .NET 8 Coding Standards
+
+## Project Overview
+
+- **Framework**: ASP.NET Core 8 (Web API)
+- **ORM**: Entity Framework Core 8 + Dapper
+- **Database**: SQL Server via `Microsoft.Data.SqlClient`
+- **Style**: Allman braces, PascalCase/camelCase conventions (see `.editorconfig`)
+
+## Naming Conventions
+
+| Type | Convention | Example |
+|------|------------|---------|
+| Interface | `I` + PascalCase | `IUserRepository` |
+| Class / Struct | PascalCase | `UserService`, `WeatherForecast` |
+| Method | PascalCase | `GetUserById`, `CreateOrder` |
+| Property | PascalCase | `FirstName`, `IsActive` |
+| Private field | `_camelCase` | `_logger`, `_dbConnection` |
+| Parameter | camelCase | `userId`, `pageNumber` |
+| Constant | PascalCase | `MaxRetryCount`, `DefaultPageSize` |
+| File name | PascalCase (match class) | `UserService.cs`, `CreateUserDto.cs` |
+
+## Code Layout
+
+### Braces — Allman style (opening brace on new line)
+
+```csharp
+// ✅ Correct
+public async Task<IActionResult> GetUser(string id)
+{
+    var user = await _context.Users.FindAsync(id);
+    if (user == null)
+    {
+        return NotFound();
+    }
+    return Ok(user);
+}
+
+// ❌ Wrong — opening brace on same line (K&R)
+public async Task<IActionResult> GetUser(string id) {
+    var user = await _context.Users.FindAsync(id);
+    if (user == null) {
+        return NotFound();
+    }
+    return Ok(user);
+}
+```
+
+### Line Length
+
+- Max **120 characters** per line
+- Break long method chains, LINQ queries, and parameter lists
+
+### File Structure
+
+```csharp
+// 1. Using statements (sorted alphabetically)
+// 2. Namespace
+namespace LAP_API.Controllers;
+
+// 3. Class declaration
+public class UserController : ControllerBase
+{
+    // 4. Private fields (_camelCase)
+    private readonly ILogger<UserController> _logger;
+    private readonly ApplicationDbContext _context;
+
+    // 5. Constructor
+    public UserController(
+        ILogger<UserController> logger,
+        ApplicationDbContext context)
+    {
+        _logger = logger;
+        _context = context;
+    }
+
+    // 6. Public methods
+    // 7. Private methods
+}
+```
+
+## Controller Conventions
+
+- All controllers inherit from `ControllerBase`
+- Use `[ApiController]` attribute on every controller
+- Route: `[Route("api/[controller]")]` or `[Route("api/[controller]/[action]")]`
+- Action methods return `IActionResult` or `ActionResult<T>`
+- Every mutating endpoint (POST/PUT/DELETE) requires `[Authorize]` or explicit `[AllowAnonymous]`
+
+## API Response Patterns
+
+```csharp
+// ✅ Standard success
+return Ok(result);
+return CreatedAtAction(nameof(GetUser), new { id = user.Id }, user);
+
+// ✅ Standard error — never expose exception details
+return BadRequest(new { message = "Validation failed." });
+return NotFound(new { message = "User not found." });
+return StatusCode(500, new { message = "An error occurred. Please try again." });
+
+// ❌ Dangerous — leaks internal details
+return BadRequest(ex.Message);
+return StatusCode(500, new { message = ex.ToString() });
+```
+
+## Data Access
+
+### EF Core — Safe Queries
+
+```csharp
+// ✅ Safe — parameterized automatically
+var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
+
+// ✅ Safe — parameterized raw query
+await _context.Database.ExecuteSqlRawAsync(
+    "UPDATE Users SET Name = {0} WHERE Id = {1}", name, id);
+
+// ❌ Never — string interpolation in SQL
+await _context.Database.ExecuteSqlRawAsync(
+    $"UPDATE Users SET Name = '{name}' WHERE Id = '{id}'");
+```
+
+### Dapper — Safe Queries
+
+```csharp
+// ✅ Parameterized
+var user = await _connection.QueryFirstOrDefaultAsync<User>(
+    "SELECT * FROM Users WHERE Id = @Id",
+    new { Id = id });
+
+// ❌ Never
+_connection.Query("SELECT * FROM Users WHERE Id = '" + id + "'");
+```
+
+## Async/Await
+
+- All I/O-bound operations must be `async`/`await`
+- Never use `.Result` or `.Wait()` — use `await`
+- Controller actions returning `Task<IActionResult>`
+
+## Null Handling
+
+- Use nullable reference types (`string?`, `int?`)
+- Use null-conditional `?.` and null-coalescing `??`
+- Prefer pattern matching over `== null`
+
+## Dependency Injection
+
+```csharp
+// Register in Program.cs or extension method
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+// Inject via constructor
+public class UserService
+{
+    private readonly IUserRepository _userRepository;
+
+    public UserService(IUserRepository userRepository)
+    {
+        _userRepository = userRepository;
+    }
+}
+```
+
+## Error Handling
+
+```csharp
+try
+{
+    var result = await _service.DoSomething();
+    return Ok(result);
+}
+catch (UserNotFoundException ex)
+{
+    _logger.LogWarning(ex, "User not found: {UserId}", ex.UserId);
+    return NotFound(new { message = "User not found." });
+}
+catch (Exception ex)
+{
+    _logger.LogError(ex, "Unexpected error");
+    return StatusCode(500, new { message = "An error occurred. Please try again." });
+}
+```
+
+## Logging
+
+- Use `ILogger<T>` in every service and controller
+- Never log sensitive data (passwords, tokens, PII)
+- Include correlation IDs or user IDs in log context
+
+## Constants & Magic Numbers
+
+```csharp
+// ❌ Magic numbers
+if (pageSize > 100) { ... }
+
+// ✅ Named constants
+private const int MaxPageSize = 100;
+if (pageSize > MaxPageSize) { ... }
+```
+
+## Attributes
+
+- Use `[Required]`, `[StringLength]`, `[Range]` for validation
+- Use `[JsonPropertyName("camelCase")]` for API response naming
+- Use `[ProducesResponseType]` on controller actions for Swagger
+
+## IDisposable
+
+- Dispose resources properly: `using` statements or DI lifetime management
+- Do not call `.Dispose()` manually when DI handles it
+
+## Commenting
+
+- Do not comment obvious code
+- Use XML doc comments (`/// <summary>`) on public API surface only
+- Explain **why**, not **what**
