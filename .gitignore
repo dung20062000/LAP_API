@@ -1,0 +1,50 @@
+# Build results
+bin/
+obj/
+
+# .NET Core
+*.user
+*.rsuser
+*.suo
+*.userosscache
+*.sln.docstates
+
+# NuGet
+*.nupkg
+*.snupkg
+packages/
+
+# IDE
+.vs/
+.vscode/
+*.swp
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Secrets - KHONG commit file nay
+appsettings.*.json
+!appsettings.Development.json
+
+# Entity Framework migrations
+**/Migrations/**
+
+# Cursor Agent configuration — local-only, do not share across teams
+.cursor/
+.agents/
+
+# Miscellaneous
+/.angular/cache
+.sass-cache/
+/connect.lock
+/coverage
+/libpeerconnection.log
+testem.log
+/typings
+__screenshots__/

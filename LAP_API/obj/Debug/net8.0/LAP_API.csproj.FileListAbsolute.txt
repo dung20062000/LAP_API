@@ -138,10 +138,12 @@ D:\DungBT\DuAn\Lap\LAP_API\LAP_API\obj\Debug\net8.0\staticwebassets.build.json
 D:\DungBT\DuAn\Lap\LAP_API\LAP_API\obj\Debug\net8.0\staticwebassets.build.json.cache
 D:\DungBT\DuAn\Lap\LAP_API\LAP_API\obj\Debug\net8.0\staticwebassets.development.json
 D:\DungBT\DuAn\Lap\LAP_API\LAP_API\obj\Debug\net8.0\staticwebassets.build.endpoints.json
-D:\DungBT\DuAn\Lap\LAP_API\LAP_API\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 D:\DungBT\DuAn\Lap\LAP_API\LAP_API\obj\Debug\net8.0\LAP_API.csproj.Up2Date
 D:\DungBT\DuAn\Lap\LAP_API\LAP_API\obj\Debug\net8.0\LAP_API.dll
 D:\DungBT\DuAn\Lap\LAP_API\LAP_API\obj\Debug\net8.0\refint\LAP_API.dll
 D:\DungBT\DuAn\Lap\LAP_API\LAP_API\obj\Debug\net8.0\LAP_API.pdb
 D:\DungBT\DuAn\Lap\LAP_API\LAP_API\obj\Debug\net8.0\LAP_API.genruntimeconfig.cache
 D:\DungBT\DuAn\Lap\LAP_API\LAP_API\obj\Debug\net8.0\ref\LAP_API.dll
+D:\DungBT\DuAn\Lap\LAP_API\LAP_API\obj\Debug\net8.0\LAP_API.sourcelink.json
+D:\DungBT\DuAn\Lap\LAP_API\LAP_API\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\DungBT\DuAn\Lap\LAP_API\LAP_API\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

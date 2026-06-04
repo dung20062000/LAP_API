@@ -3,20 +3,44 @@
   "WorkspaceRootPath": "D:\\DungBT\\DuAn\\Lap\\LAP_API\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{FCFFEAA0-422A-402F-9B19-1E1C29B7B748}|LAP_API\\LAP_API.csproj|d:\\dungbt\\duan\\lap\\lap_api\\lap_api\\controllers\\weatherforecastcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FCFFEAA0-422A-402F-9B19-1E1C29B7B748}|LAP_API\\LAP_API.csproj|solutionrelative:lap_api\\controllers\\weatherforecastcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{FCFFEAA0-422A-402F-9B19-1E1C29B7B748}|LAP_API\\LAP_API.csproj|d:\\dungbt\\duan\\lap\\lap_api\\lap_api\\services\\vehicleservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FCFFEAA0-422A-402F-9B19-1E1C29B7B748}|LAP_API\\LAP_API.csproj|solutionrelative:lap_api\\services\\vehicleservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FCFFEAA0-422A-402F-9B19-1E1C29B7B748}|LAP_API\\LAP_API.csproj|d:\\dungbt\\duan\\lap\\lap_api\\lap_api\\weatherforecast.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FCFFEAA0-422A-402F-9B19-1E1C29B7B748}|LAP_API\\LAP_API.csproj|solutionrelative:lap_api\\weatherforecast.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{FCFFEAA0-422A-402F-9B19-1E1C29B7B748}|LAP_API\\LAP_API.csproj|d:\\dungbt\\duan\\lap\\lap_api\\lap_api\\controllers\\vehiclescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FCFFEAA0-422A-402F-9B19-1E1C29B7B748}|LAP_API\\LAP_API.csproj|solutionrelative:lap_api\\controllers\\vehiclescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FCFFEAA0-422A-402F-9B19-1E1C29B7B748}|LAP_API\\LAP_API.csproj|d:\\dungbt\\duan\\lap\\lap_api\\lap_api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FCFFEAA0-422A-402F-9B19-1E1C29B7B748}|LAP_API\\LAP_API.csproj|solutionrelative:lap_api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{FCFFEAA0-422A-402F-9B19-1E1C29B7B748}|LAP_API\\LAP_API.csproj|d:\\dungbt\\duan\\lap\\lap_api\\lap_api\\models\\group.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FCFFEAA0-422A-402F-9B19-1E1C29B7B748}|LAP_API\\LAP_API.csproj|solutionrelative:lap_api\\models\\group.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FCFFEAA0-422A-402F-9B19-1E1C29B7B748}|LAP_API\\LAP_API.csproj|d:\\dungbt\\duan\\lap\\lap_api\\lap_api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{FCFFEAA0-422A-402F-9B19-1E1C29B7B748}|LAP_API\\LAP_API.csproj|solutionrelative:lap_api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{FCFFEAA0-422A-402F-9B19-1E1C29B7B748}|LAP_API\\LAP_API.csproj|d:\\dungbt\\duan\\lap\\lap_api\\lap_api\\models\\vehicle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FCFFEAA0-422A-402F-9B19-1E1C29B7B748}|LAP_API\\LAP_API.csproj|solutionrelative:lap_api\\models\\vehicle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FCFFEAA0-422A-402F-9B19-1E1C29B7B748}|LAP_API\\LAP_API.csproj|d:\\dungbt\\duan\\lap\\lap_api\\lap_api\\dtos\\vehicle\\imagesearchrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FCFFEAA0-422A-402F-9B19-1E1C29B7B748}|LAP_API\\LAP_API.csproj|solutionrelative:lap_api\\dtos\\vehicle\\imagesearchrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FCFFEAA0-422A-402F-9B19-1E1C29B7B748}|LAP_API\\LAP_API.csproj|d:\\dungbt\\duan\\lap\\lap_api\\lap_api\\models\\vehiclegroup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FCFFEAA0-422A-402F-9B19-1E1C29B7B748}|LAP_API\\LAP_API.csproj|solutionrelative:lap_api\\models\\vehiclegroup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FCFFEAA0-422A-402F-9B19-1E1C29B7B748}|LAP_API\\LAP_API.csproj|d:\\dungbt\\duan\\lap\\lap_api\\lap_api\\repositories\\vehiclerepo\\vehiclerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FCFFEAA0-422A-402F-9B19-1E1C29B7B748}|LAP_API\\LAP_API.csproj|solutionrelative:lap_api\\repositories\\vehiclerepo\\vehiclerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FCFFEAA0-422A-402F-9B19-1E1C29B7B748}|LAP_API\\LAP_API.csproj|d:\\dungbt\\duan\\lap\\lap_api\\lap_api\\repositories\\vehiclerepo\\grouprepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FCFFEAA0-422A-402F-9B19-1E1C29B7B748}|LAP_API\\LAP_API.csproj|solutionrelative:lap_api\\repositories\\vehiclerepo\\grouprepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FCFFEAA0-422A-402F-9B19-1E1C29B7B748}|LAP_API\\LAP_API.csproj|d:\\dungbt\\duan\\lap\\lap_api\\lap_api\\services\\ivehicleservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FCFFEAA0-422A-402F-9B19-1E1C29B7B748}|LAP_API\\LAP_API.csproj|solutionrelative:lap_api\\services\\ivehicleservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FCFFEAA0-422A-402F-9B19-1E1C29B7B748}|LAP_API\\LAP_API.csproj|d:\\dungbt\\duan\\lap\\lap_api\\lap_api\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{FCFFEAA0-422A-402F-9B19-1E1C29B7B748}|LAP_API\\LAP_API.csproj|solutionrelative:lap_api\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,58 +50,136 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "WeatherForecast.cs",
-              "DocumentMoniker": "D:\\DungBT\\DuAn\\Lap\\LAP_API\\LAP_API\\WeatherForecast.cs",
-              "RelativeDocumentMoniker": "LAP_API\\WeatherForecast.cs",
-              "ToolTip": "D:\\DungBT\\DuAn\\Lap\\LAP_API\\LAP_API\\WeatherForecast.cs",
-              "RelativeToolTip": "LAP_API\\WeatherForecast.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "DocumentIndex": 4,
+              "Title": "ImageSearchRequest.cs",
+              "DocumentMoniker": "D:\\DungBT\\DuAn\\Lap\\LAP_API\\LAP_API\\DTOs\\Vehicle\\ImageSearchRequest.cs",
+              "RelativeDocumentMoniker": "LAP_API\\DTOs\\Vehicle\\ImageSearchRequest.cs",
+              "ToolTip": "D:\\DungBT\\DuAn\\Lap\\LAP_API\\LAP_API\\DTOs\\Vehicle\\ImageSearchRequest.cs",
+              "RelativeToolTip": "LAP_API\\DTOs\\Vehicle\\ImageSearchRequest.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAgwCAAAABAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-26T01:24:32.196Z",
+              "WhenOpened": "2026-06-04T07:54:00.433Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "WeatherForecastController.cs",
-              "DocumentMoniker": "D:\\DungBT\\DuAn\\Lap\\LAP_API\\LAP_API\\Controllers\\WeatherForecastController.cs",
-              "RelativeDocumentMoniker": "LAP_API\\Controllers\\WeatherForecastController.cs",
-              "ToolTip": "D:\\DungBT\\DuAn\\Lap\\LAP_API\\LAP_API\\Controllers\\WeatherForecastController.cs",
-              "RelativeToolTip": "LAP_API\\Controllers\\WeatherForecastController.cs",
+              "DocumentIndex": 6,
+              "Title": "VehicleRepository.cs",
+              "DocumentMoniker": "D:\\DungBT\\DuAn\\Lap\\LAP_API\\LAP_API\\Repositories\\VehicleRepo\\VehicleRepository.cs",
+              "RelativeDocumentMoniker": "LAP_API\\Repositories\\VehicleRepo\\VehicleRepository.cs",
+              "ToolTip": "D:\\DungBT\\DuAn\\Lap\\LAP_API\\LAP_API\\Repositories\\VehicleRepo\\VehicleRepository.cs",
+              "RelativeToolTip": "LAP_API\\Repositories\\VehicleRepo\\VehicleRepository.cs",
+              "ViewState": "AgIAABkAAAAAAAAAAAAewCsAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-04T06:44:50.719Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "VehicleGroup.cs",
+              "DocumentMoniker": "D:\\DungBT\\DuAn\\Lap\\LAP_API\\LAP_API\\Models\\VehicleGroup.cs",
+              "RelativeDocumentMoniker": "LAP_API\\Models\\VehicleGroup.cs",
+              "ToolTip": "D:\\DungBT\\DuAn\\Lap\\LAP_API\\LAP_API\\Models\\VehicleGroup.cs",
+              "RelativeToolTip": "LAP_API\\Models\\VehicleGroup.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-26T01:25:22.525Z",
+              "WhenOpened": "2026-06-04T04:49:52.14Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "D:\\DungBT\\DuAn\\Lap\\LAP_API\\LAP_API\\appsettings.json",
-              "RelativeDocumentMoniker": "LAP_API\\appsettings.json",
-              "ToolTip": "D:\\DungBT\\DuAn\\Lap\\LAP_API\\LAP_API\\appsettings.json",
-              "RelativeToolTip": "LAP_API\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAADAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-05-25T09:58:02.371Z",
+              "Title": "Vehicle.cs",
+              "DocumentMoniker": "D:\\DungBT\\DuAn\\Lap\\LAP_API\\LAP_API\\Models\\Vehicle.cs",
+              "RelativeDocumentMoniker": "LAP_API\\Models\\Vehicle.cs",
+              "ToolTip": "D:\\DungBT\\DuAn\\Lap\\LAP_API\\LAP_API\\Models\\Vehicle.cs",
+              "RelativeToolTip": "LAP_API\\Models\\Vehicle.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAAgwB8AAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-04T04:49:52.038Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "Program.cs",
-              "DocumentMoniker": "D:\\DungBT\\DuAn\\Lap\\LAP_API\\LAP_API\\Program.cs",
-              "RelativeDocumentMoniker": "LAP_API\\Program.cs",
-              "ToolTip": "D:\\DungBT\\DuAn\\Lap\\LAP_API\\LAP_API\\Program.cs",
-              "RelativeToolTip": "LAP_API\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAABXAAAAAAAAAA==",
+              "Title": "Group.cs",
+              "DocumentMoniker": "D:\\DungBT\\DuAn\\Lap\\LAP_API\\LAP_API\\Models\\Group.cs",
+              "RelativeDocumentMoniker": "LAP_API\\Models\\Group.cs",
+              "ToolTip": "D:\\DungBT\\DuAn\\Lap\\LAP_API\\LAP_API\\Models\\Group.cs",
+              "RelativeToolTip": "LAP_API\\Models\\Group.cs",
+              "ViewState": "AgIAABQAAAAAAAAAAAAwwBAAAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-25T09:57:51.774Z",
+              "WhenOpened": "2026-06-04T04:49:51.92Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "GroupRepository.cs",
+              "DocumentMoniker": "D:\\DungBT\\DuAn\\Lap\\LAP_API\\LAP_API\\Repositories\\VehicleRepo\\GroupRepository.cs",
+              "RelativeDocumentMoniker": "LAP_API\\Repositories\\VehicleRepo\\GroupRepository.cs",
+              "ToolTip": "D:\\DungBT\\DuAn\\Lap\\LAP_API\\LAP_API\\Repositories\\VehicleRepo\\GroupRepository.cs",
+              "RelativeToolTip": "LAP_API\\Repositories\\VehicleRepo\\GroupRepository.cs",
+              "ViewState": "AgIAABUAAAAAAAAAAAAMwBwAAABkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-04T04:43:20.945Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "IVehicleService.cs",
+              "DocumentMoniker": "D:\\DungBT\\DuAn\\Lap\\LAP_API\\LAP_API\\Services\\IVehicleService.cs",
+              "RelativeDocumentMoniker": "LAP_API\\Services\\IVehicleService.cs",
+              "ToolTip": "D:\\DungBT\\DuAn\\Lap\\LAP_API\\LAP_API\\Services\\IVehicleService.cs",
+              "RelativeToolTip": "LAP_API\\Services\\IVehicleService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-04T04:24:57.759Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "VehicleService.cs",
+              "DocumentMoniker": "D:\\DungBT\\DuAn\\Lap\\LAP_API\\LAP_API\\Services\\VehicleService.cs",
+              "RelativeDocumentMoniker": "LAP_API\\Services\\VehicleService.cs",
+              "ToolTip": "D:\\DungBT\\DuAn\\Lap\\LAP_API\\LAP_API\\Services\\VehicleService.cs*",
+              "RelativeToolTip": "LAP_API\\Services\\VehicleService.cs*",
+              "ViewState": "AgIAADQAAAAAAAAAAIAwwEMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-04T04:13:48.995Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "VehiclesController.cs",
+              "DocumentMoniker": "D:\\DungBT\\DuAn\\Lap\\LAP_API\\LAP_API\\Controllers\\VehiclesController.cs",
+              "RelativeDocumentMoniker": "LAP_API\\Controllers\\VehiclesController.cs",
+              "ToolTip": "D:\\DungBT\\DuAn\\Lap\\LAP_API\\LAP_API\\Controllers\\VehiclesController.cs",
+              "RelativeToolTip": "LAP_API\\Controllers\\VehiclesController.cs",
+              "ViewState": "AgIAACIAAAAAAAAAAAAgwDYAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-04T04:12:53.148Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "appsettings.Development.json",
+              "DocumentMoniker": "D:\\DungBT\\DuAn\\Lap\\LAP_API\\LAP_API\\appsettings.Development.json",
+              "RelativeDocumentMoniker": "LAP_API\\appsettings.Development.json",
+              "ToolTip": "D:\\DungBT\\DuAn\\Lap\\LAP_API\\LAP_API\\appsettings.Development.json",
+              "RelativeToolTip": "LAP_API\\appsettings.Development.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAC0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-05-29T07:57:37.36Z",
               "EditorCaption": ""
             }
           ]
