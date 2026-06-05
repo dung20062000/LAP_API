@@ -5,6 +5,15 @@ using System.Net.Http.Json;
 
 namespace LAP_API.Services;
 
+/// <summary>
+/// 
+/// </summary>
+/// <Modified>
+/// Name Date Comments
+/// dungbt 6/4/2026 created
+/// </Modified>
+/// <seealso cref="LAP_API.Services.BaseService" />
+/// <seealso cref="LAP_API.Services.IVehicleService" />
 public class VehicleService : BaseService, IVehicleService
 {
     private readonly IHttpClientFactory _httpClientFactory;
