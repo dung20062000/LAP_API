@@ -8,6 +8,9 @@ public class GroupRepository : IGroupRepository
 {
     private readonly ApplicationDbContext _context;
 
+    // fix cứng CompanyId vì hiện tại chỉ có 1 công ty, sau này nếu có nhiều công ty thì sẽ cần thay đổi
+    private const int CompanyId = 15076;
+
     public GroupRepository(ApplicationDbContext context)
         => _context = context;
 
@@ -17,7 +20,7 @@ public class GroupRepository : IGroupRepository
         {
             return await _context.Groups
                 .AsNoTracking()
-                .Where(g => g.Status && g.IsDeleted != true)
+                .Where(g => g.Status && g.IsDeleted != true && g.CompanyId == CompanyId)
                 .ToListAsync();
         }
         catch (Exception ex)
@@ -33,10 +36,10 @@ public class GroupRepository : IGroupRepository
             var list = groupIds.ToList();
             var result = await _context.VehicleGroups
                 .AsNoTracking()
-                .Where(vg => list.Contains(vg.GroupId) && vg.IsDeleted != true)
+                .Where(vg => list.Contains(vg.GroupId) && vg.IsDeleted != true && vg.CompanyId == CompanyId)
                 .Join(
                     _context.Vehicles.Where(v =>
-                        !v.IsLocked && v.IsDeleted != true),
+                        !v.IsLocked && v.IsDeleted != true && v.CompanyId == CompanyId),
                     vg => vg.VehicleId,
                     v => v.Id,
                     (vg, _) => vg.GroupId)

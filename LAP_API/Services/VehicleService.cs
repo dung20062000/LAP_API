@@ -38,12 +38,67 @@ public class VehicleService : BaseService, IVehicleService
         var vehicleCounts = await _unitOfWork.Groups
             .GetVehicleCountByGroupIdsAsync(groups.Select(g => g.Id));
 
-        return groups.Select(g => new VehicleGroupTreeDto
+        var childrenMap = groups
+            .Where(g => g.ParentVehicleGroupID.HasValue)
+            .GroupBy(g => g.ParentVehicleGroupID!.Value)
+            .ToDictionary(g => g.Key, g => g.ToList());
+
+        var resolvedCounts = new Dictionary<int, int>();
+        var visited = new HashSet<int>();
+
+        int GetRecursiveCount(int groupId)
         {
-            Key = g.Id.ToString(),
-            Label = $"{g.GroupName} ({vehicleCounts.GetValueOrDefault(g.Id, 0)})",
-            Data = g.Id.ToString(),
-        }).ToList();
+            if (resolvedCounts.TryGetValue(groupId, out var cachedCount))
+                return cachedCount;
+
+            if (!visited.Add(groupId))
+                return 0;
+
+            int count = 0;
+
+            if (childrenMap.TryGetValue(groupId, out var children))
+            {
+                foreach (var child in children)
+                {
+                    count += GetRecursiveCount(child.Id);
+                }
+            }
+            else
+            {
+                count = vehicleCounts.GetValueOrDefault(groupId, 0);
+            }
+
+            visited.Remove(groupId);
+            resolvedCounts[groupId] = count;
+            return count;
+        }
+
+        var groupDict = groups.ToDictionary(
+            g => g.Id,
+            g => new VehicleGroupTreeDto
+            {
+                Key = g.Id.ToString(),
+                Label = $"{g.GroupName} ({GetRecursiveCount(g.Id)})",
+                Data = g.Id.ToString(),
+                Children = new List<VehicleGroupTreeDto>()
+            });
+
+        var rootDtos = new List<VehicleGroupTreeDto>();
+
+        foreach (var g in groups)
+        {
+            var dto = groupDict[g.Id];
+            if (g.ParentVehicleGroupID.HasValue && groupDict.TryGetValue(g.ParentVehicleGroupID.Value, out var parentDto))
+            {
+                parentDto.Children.Add(dto);
+            }
+            else
+            {
+                rootDtos.Add(dto);
+            }
+        }
+
+        return rootDtos;
     }
 
     public async Task<List<VehicleDto>> GetVehiclesByGroupIdsAsync(List<int> groupIds)
@@ -52,29 +107,37 @@ public class VehicleService : BaseService, IVehicleService
             ? await _unitOfWork.Vehicles.GetActiveVehiclesAsync()
             : await _unitOfWork.Vehicles.GetByGroupIdsAsync(groupIds);
 
-        return vehicles.Select(v => new VehicleDto
-        {
-            Id = v.Id,
-            VehiclePlate = v.VehiclePlate,
-            PrivateCode = v.PrivateCode,
-            DisplayName = v.PrivateCode != v.VehiclePlate
-                ? $"{v.PrivateCode} ({v.VehiclePlate})"
-                : v.VehiclePlate,
-        }).ToList();
+        return vehicles
+            .DistinctBy(v => v.Id)
+            .Select(v => new VehicleDto
+            {
+                Id = v.Id,
+                VehiclePlate = v.VehiclePlate,
+                XNCode = v.XNCode,
+                DisplayName = v.PrivateCode != v.VehiclePlate
+                    ? $"{v.PrivateCode} ({v.VehiclePlate})"
+                    : v.VehiclePlate,
+            }).ToList();
     }
 
     public async Task<(ImageSearchResponse? response, string? error)> SearchImagesAsync(
         ImageSearchRequest request)
     {
         // Validation
-        if (request.StartTime >= request.EndTime)
-            return (null, "StartTime phải nhỏ hơn EndTime");
+        if (request.StartTime > request.EndTime)
+            return (null, "Giờ bắt đầu không được lớn hơn giờ kết thúc");
+
+        if (request.StartTime > DateTime.Now)
+            return (null, "Giờ bắt đầu không được lớn hơn thời gian hiện tại");
+
+        if (request.EndTime > DateTime.Now)
+            return (null, "Giờ kết thúc không được lớn hơn thời gian hiện tại");
+
+        if (request.StartTime < DateTime.Now.Date.AddDays(-MaxImageSearchDays))
+            return (null, $"Thời gian chọn không được cách ngày hiện tại quá {MaxImageSearchDays} ngày");
 
         if ((request.EndTime - request.StartTime).TotalDays > MaxImageSearchDays)
             return (null, $"Khoảng thời gian không được vượt quá {MaxImageSearchDays} ngày");
-
-        if (request.EndTime > DateTime.UtcNow)
-            return (null, "EndTime không được vượt quá ngày hiện tại");
 
         var pageNumber = request.PageNumber > 0 ? request.PageNumber : 1;
         var pageSize = request.PageSize > 0 ? request.PageSize : 20;
@@ -84,8 +147,8 @@ public class VehicleService : BaseService, IVehicleService
             CustomerId = request.CustomerId,
             VehicleName = request.VehiclePlate,
             Channels = request.Channels,
-            StartTime = request.StartTime.ToString("yyyy-MM-ddTHH:mm:ss"),
-            EndTime = request.EndTime.ToString("yyyy-MM-ddTHH:mm:ss"),
+            StartTime = request.StartTime.ToString("yyyy-MM-ddTHH:mm:ss", System.Globalization.CultureInfo.InvariantCulture),
+            EndTime = request.EndTime.ToString("yyyy-MM-ddTHH:mm:ss", System.Globalization.CultureInfo.InvariantCulture),
             Frequency = 5,
             StorageTime = 90,
         };

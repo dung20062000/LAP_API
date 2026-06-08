@@ -7,6 +7,7 @@ namespace LAP_API.Repositories.VehicleRepo;
 public class VehicleRepository : IVehicleRepository
 {
     private readonly ApplicationDbContext _context;
+    private const int CompanyId = 15076;
 
     public VehicleRepository(ApplicationDbContext context)
         => _context = context;
@@ -18,10 +19,10 @@ public class VehicleRepository : IVehicleRepository
             var list = groupIds.ToList();
             return await _context.VehicleGroups
                 .AsNoTracking()
-                .Where(vg => list.Contains(vg.GroupId) && vg.IsDeleted != true)
+                .Where(vg => list.Contains(vg.GroupId) && vg.IsDeleted != true && vg.CompanyId == CompanyId)
                 .Join(
                     _context.Vehicles.Where(v =>
-                        !v.IsLocked && v.IsDeleted != true),
+                        !v.IsLocked && v.IsDeleted != true && v.CompanyId == CompanyId),
                     vg => vg.VehicleId,
                     v => v.Id,
                     (_, v) => v)
