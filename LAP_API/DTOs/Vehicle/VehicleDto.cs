@@ -10,9 +10,10 @@ public class VehicleDto
     [JsonPropertyName("vehiclePlate")]
     public string VehiclePlate { get; set; } = string.Empty;
 
-    [JsonPropertyName("privateCode")]
-    public string PrivateCode { get; set; } = string.Empty;
+    [JsonPropertyName("XNCode")]
+    public int XNCode { get; set; }
 
     [JsonPropertyName("displayName")]
     public string DisplayName { get; set; } = string.Empty;
+
 }

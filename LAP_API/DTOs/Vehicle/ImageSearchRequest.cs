@@ -10,7 +10,7 @@ public class ImageSearchRequest
     public string? VehiclePlate { get; set; }
 
     [JsonPropertyName("customerId")]
-    public string? CustomerId { get; set; }
+    public int CustomerId { get; set; }
 
     [JsonPropertyName("channels")]
     public List<int> Channels { get; set; } = new();
