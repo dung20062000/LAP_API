@@ -4,6 +4,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LAP_API.Repositories.VehicleRepo;
 
+
+/// <summary>
+/// Repository quản lý các truy vấn liên quan đến bảng Group trong cơ sở dữ liệu.
+/// </summary>
+/// <Modified>
+/// Name Date Comments
+/// dungbt 6/9/2026 created
+/// </Modified>
+/// <seealso cref="LAP_API.Repositories.VehicleRepo.IGroupRepository" />
 public class GroupRepository : IGroupRepository
 {
     private readonly ApplicationDbContext _context;
@@ -14,6 +23,17 @@ public class GroupRepository : IGroupRepository
     public GroupRepository(ApplicationDbContext context)
         => _context = context;
 
+
+    /// <summary>
+    /// Truy vấn danh sách nhóm hoạt động.
+    /// Lọc theo CompanyId và trạng thái Status/IsDeleted.
+    /// </summary>
+    /// <returns></returns>
+    /// <Modified>
+    /// Name Date Comments
+    /// dungbt 6/9/2026 created
+    /// </Modified>
+    /// <exception cref="System.Exception">Lỗi khi lấy danh sách nhóm: {ex.Message}</exception>
     public async Task<IEnumerable<Group>> GetAllActiveAsync()
     {
         try
@@ -29,6 +49,18 @@ public class GroupRepository : IGroupRepository
         }
     }
 
+
+    /// <summary>
+    /// Đếm số lượng xe cho từng nhóm ID được truyền vào.
+    /// Thực hiện Join giữa VehicleGroups và Vehicles để đảm bảo xe còn tồn tại và không bị khóa.
+    /// </summary>
+    /// <param name="groupIds">The group ids.</param>
+    /// <returns></returns>
+    /// <Modified>
+    /// Name Date Comments
+    /// dungbt 6/9/2026 created
+    /// </Modified>
+    /// <exception cref="System.Exception">Lỗi khi đếm xe theo nhóm: {ex.Message}</exception>
     public async Task<Dictionary<int, int>> GetVehicleCountByGroupIdsAsync(IEnumerable<int> groupIds)
     {
         try
@@ -36,8 +68,10 @@ public class GroupRepository : IGroupRepository
             var list = groupIds.ToList();
             var result = await _context.VehicleGroups
                 .AsNoTracking()
+                // Lọc VehicleGroups theo danh sách ID và CompanyId
                 .Where(vg => list.Contains(vg.GroupId) && vg.IsDeleted != true && vg.CompanyId == CompanyId)
                 .Join(
+                    // Chỉ join với các xe đang hoạt động
                     _context.Vehicles.Where(v =>
                         !v.IsLocked && v.IsDeleted != true && v.CompanyId == CompanyId),
                     vg => vg.VehicleId,

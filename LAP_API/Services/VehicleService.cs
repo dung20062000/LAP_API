@@ -6,11 +6,11 @@ using System.Net.Http.Json;
 namespace LAP_API.Services;
 
 /// <summary>
-/// 
+///     lấy thông tin xe và nhóm xe, đồng thời gọi API lấy ảnh từ hệ thống bên thứ 3
 /// </summary>
 /// <Modified>
 /// Name Date Comments
-/// dungbt 6/4/2026 created
+/// dungbt 6/4/2026 create
 /// </Modified>
 /// <seealso cref="LAP_API.Services.BaseService" />
 /// <seealso cref="LAP_API.Services.IVehicleService" />
@@ -29,15 +29,26 @@ public class VehicleService : BaseService, IVehicleService
         _httpClientFactory = httpClientFactory;
     }
 
+    /// <summary>
+    /// lấy danh sách tất cả nhóm xe dưới dạng cây PrimeNG TreeNode, mỗi nút bao gồm tên nhóm và số lượng xe đang hoạt động
+    /// </summary>
+    /// <returns></returns>
+    /// <Modified>
+    /// Name Date Comments
+    /// dungbt 6/9/2026 created
+    /// </Modified>
     public async Task<List<VehicleGroupTreeDto>> GetGroupsTreeAsync()
     {
+        //Lấy tất cả nhóm đang hoạt động
         var groups = (await _unitOfWork.Groups.GetAllActiveAsync()).ToList();
         if (!groups.Any())
             return new List<VehicleGroupTreeDto>();
 
+        //Lấy số lượng xe trực tiếp của từng nhóm
         var vehicleCounts = await _unitOfWork.Groups
             .GetVehicleCountByGroupIdsAsync(groups.Select(g => g.Id));
 
+        //Xây dựng bản đồ cha-con để duyệt nhanh
         var childrenMap = groups
             .Where(g => g.ParentVehicleGroupID.HasValue)
             .GroupBy(g => g.ParentVehicleGroupID!.Value)
@@ -46,11 +57,13 @@ public class VehicleService : BaseService, IVehicleService
         var resolvedCounts = new Dictionary<int, int>();
         var visited = new HashSet<int>();
 
+        // Hàm đệ quy để tính tổng số xe của một nhóm (bao gồm tất cả con cháu)
         int GetRecursiveCount(int groupId)
         {
             if (resolvedCounts.TryGetValue(groupId, out var cachedCount))
                 return cachedCount;
 
+            // Chống lặp vô hạn nếu dữ liệu có vòng (circular dependency)
             if (!visited.Add(groupId))
                 return 0;
 
@@ -58,6 +71,7 @@ public class VehicleService : BaseService, IVehicleService
 
             if (childrenMap.TryGetValue(groupId, out var children))
             {
+                // Nếu có con, tổng = tổng xe của các con
                 foreach (var child in children)
                 {
                     count += GetRecursiveCount(child.Id);
@@ -65,6 +79,7 @@ public class VehicleService : BaseService, IVehicleService
             }
             else
             {
+                // Nếu là nhóm lá, lấy số xe trực tiếp
                 count = vehicleCounts.GetValueOrDefault(groupId, 0);
             }
 
@@ -73,6 +88,7 @@ public class VehicleService : BaseService, IVehicleService
             return count;
         }
 
+        //Chuyển đổi list Groups sang Dictionary của DTOs
         var groupDict = groups.ToDictionary(
             g => g.Id,
             g => new VehicleGroupTreeDto
@@ -85,6 +101,7 @@ public class VehicleService : BaseService, IVehicleService
 
         var rootDtos = new List<VehicleGroupTreeDto>();
 
+        //Tổ chức cấu trúc cây bằng cách gắn nút con vào nút cha tương ứng
         foreach (var g in groups)
         {
             var dto = groupDict[g.Id];
@@ -94,6 +111,7 @@ public class VehicleService : BaseService, IVehicleService
             }
             else
             {
+                // Nếu không có cha (hoặc cha không nằm trong list hoạt động), coi là nút gốc
                 rootDtos.Add(dto);
             }
         }
@@ -101,6 +119,15 @@ public class VehicleService : BaseService, IVehicleService
         return rootDtos;
     }
 
+    /// <summary>
+    /// Lấy danh sách xe đang hoạt động theo nhóm xe, nếu không truyền groupId nào thì trả về tất cả xe đang hoạt động
+    /// </summary>
+    /// <param name="groupIds">danh sách nhóm xe</param>
+    /// <returns></returns>
+    /// <Modified>
+    /// Name Date Comments
+    /// dungbt 6/9/2026 created
+    /// </Modified>
     public async Task<List<VehicleDto>> GetVehiclesByGroupIdsAsync(List<int> groupIds)
     {
         var vehicles = groupIds.Count == 0
@@ -120,6 +147,15 @@ public class VehicleService : BaseService, IVehicleService
             }).ToList();
     }
 
+    /// <summary>
+    /// Lấy thông tin ảnh của xe theo biển số, kênh, khoảng thời gian và phân trang, sắp xếp theo thời gian ảnh
+    /// </summary>
+    /// <param name="request">Thông tin biến param</param>
+    /// <returns></returns>
+    /// <Modified>
+    /// Name Date Comments
+    /// dungbt 6/9/2026 created
+    /// </Modified>
     public async Task<(ImageSearchResponse? response, string? error)> SearchImagesAsync(
         ImageSearchRequest request)
     {

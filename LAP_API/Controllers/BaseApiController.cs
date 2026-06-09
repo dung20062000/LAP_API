@@ -7,6 +7,11 @@ namespace LAP_API.Controllers;
 /// Class cơ sở cho tất cả controller, cung cấp các helper method
 /// tạo response chuẩn hóa cho toàn bộ API.
 /// </summary>
+/// <Modified>
+/// Name Date Comments
+/// dungbt 6/9/2026 created
+/// </Modified>
+/// <seealso cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
 public abstract class BaseApiController : ControllerBase
 {
     /// <summary>
@@ -16,6 +21,10 @@ public abstract class BaseApiController : ControllerBase
     /// <param name="data">Dữ liệu trả về.</param>
     /// <param name="message">Thông điệp thành công tùy chọn.</param>
     /// <returns>OkResult bọc ApiResponse.</returns>
+    /// <Modified>
+    /// Name Date Comments
+    /// dungbt 6/9/2026 created
+    /// </Modified>
     protected ActionResult OkResponse<T>(T data, string message = "Thành công")
     {
         return Ok(ApiResponse<T>.Ok(data, message));
@@ -26,6 +35,10 @@ public abstract class BaseApiController : ControllerBase
     /// </summary>
     /// <param name="message">Thông điệp thành công tùy chọn.</param>
     /// <returns>OkResult bọc ApiResponse.</returns>
+    /// <Modified>
+    /// Name Date Comments
+    /// dungbt 6/9/2026 created
+    /// </Modified>
     protected ActionResult OkResponse(string message = "Thành công")
     {
         return Ok(ApiResponse.Ok(message));
@@ -38,6 +51,10 @@ public abstract class BaseApiController : ControllerBase
     /// <param name="message">Thông điệp lỗi trả về.</param>
     /// <param name="statusCode">Mã HTTP (mặc định 400).</param>
     /// <returns>Phản hồi lỗi với mã HTTP tương ứng.</returns>
+    /// <Modified>
+    /// Name Date Comments
+    /// dungbt 6/9/2026 created
+    /// </Modified>
     protected ActionResult FailResponse<T>(string message, int statusCode = 400)
     {
         return statusCode switch
@@ -57,6 +74,10 @@ public abstract class BaseApiController : ControllerBase
     /// <param name="message">Thông điệp lỗi trả về.</param>
     /// <param name="statusCode">Mã HTTP (mặc định 400).</param>
     /// <returns>Phản hồi lỗi với mã HTTP tương ứng.</returns>
+    /// <Modified>
+    /// Name Date Comments
+    /// dungbt 6/9/2026 created
+    /// </Modified>
     protected ActionResult FailResponse(string message, int statusCode = 400)
     {
         return statusCode switch
@@ -77,6 +98,10 @@ public abstract class BaseApiController : ControllerBase
     /// <param name="message">Thông điệp lỗi.</param>
     /// <param name="errors">Dictionary chứa lỗi validation theo từng trường.</param>
     /// <returns>BadRequestResult chứa chi tiết lỗi.</returns>
+    /// <Modified>
+    /// Name Date Comments
+    /// dungbt 6/9/2026 created
+    /// </Modified>
     protected ActionResult FailResponse<T>(string message, Dictionary<string, string[]> errors)
     {
         return BadRequest(ApiResponse<T>.Fail(message, errors));
@@ -89,6 +114,10 @@ public abstract class BaseApiController : ControllerBase
     /// <param name="data">Dữ liệu resource vừa tạo.</param>
     /// <param name="message">Thông điệp thành công tùy chọn.</param>
     /// <returns>StatusCode 201 bọc ApiResponse.</returns>
+    /// <Modified>
+    /// Name Date Comments
+    /// dungbt 6/9/2026 created
+    /// </Modified>
     protected ActionResult CreatedResponse<T>(T data, string message = "Tạo thành công")
     {
         return StatusCode(201, ApiResponse<T>.Ok(data, message));
