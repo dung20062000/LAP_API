@@ -146,11 +146,14 @@ public class VehicleService : BaseService, IVehicleService
         {
             CustomerId = request.CustomerId,
             VehicleName = request.VehiclePlate,
-            Channels = request.Channels,
+            Channels = request.Channels.Select(c => new
+            {
+                Channel = c,
+                StorageTime = 90,
+                Frequency = 5
+            }).ToList(),
             StartTime = request.StartTime.ToString("yyyy-MM-ddTHH:mm:ss", System.Globalization.CultureInfo.InvariantCulture),
             EndTime = request.EndTime.ToString("yyyy-MM-ddTHH:mm:ss", System.Globalization.CultureInfo.InvariantCulture),
-            Frequency = 5,
-            StorageTime = 90,
         };
 
         try
@@ -159,7 +162,7 @@ public class VehicleService : BaseService, IVehicleService
             var content = JsonContent.Create(searchBody);
 
             var response = await client.PostAsync(
-                "http://centraldb.bagroup.io/api/v2/images/ImagesFrequency",
+                "http://centraldb.bagroup.io/api/v3/images/ImagesFrequency",
                 content);
 
             if (!response.IsSuccessStatusCode)
@@ -176,7 +179,11 @@ public class VehicleService : BaseService, IVehicleService
             System.Text.Json.JsonElement arr = default;
             if (doc.RootElement.TryGetProperty("data", out var dataEl))
                 arr = dataEl;
+            else if (doc.RootElement.TryGetProperty("Data", out dataEl))
+                arr = dataEl;
             else if (doc.RootElement.TryGetProperty("items", out dataEl))
+                arr = dataEl;
+            else if (doc.RootElement.TryGetProperty("Items", out dataEl))
                 arr = dataEl;
             else if (doc.RootElement.ValueKind == System.Text.Json.JsonValueKind.Array)
                 arr = doc.RootElement;
@@ -187,12 +194,13 @@ public class VehicleService : BaseService, IVehicleService
                 {
                     items.Add(new ImageItemDto
                     {
-                        // Mapping short keys from API response: k -> channel, c -> time, u -> url
-                        Channel = item.TryGetProperty("k", out var ch) ? ch.GetInt32() : 0,
+                        // Mapping short keys from API response
+                        VehiclePlate = item.TryGetProperty("v", out var v) ? v.GetString() ?? "" : "",
                         ImageTime = item.TryGetProperty("c", out var it) ? it.GetDateTime() : DateTime.MinValue,
                         Url = item.TryGetProperty("u", out var u) ? u.GetString() ?? "" : "",
-                        Latitude = item.TryGetProperty("lat", out var lat) ? lat.GetDouble() : null,
-                        Longitude = item.TryGetProperty("lng", out var lng) ? lng.GetDouble() : null,
+                        Speed = item.TryGetProperty("s", out var s) ? s.GetInt32() : 0,
+                        Channel = item.TryGetProperty("k", out var ch) ? ch.GetInt32() : 0,
+                        DriverName = item.TryGetProperty("n", out var n) ? n.GetString() ?? "" : "",
                     });
                 }
             }

@@ -13,8 +13,8 @@ public class ImageSearchResponse
 
 public class ImageItemDto
 {
-    [JsonPropertyName("channel")]
-    public int Channel { get; set; }
+    [JsonPropertyName("vehiclePlate")]
+    public string VehiclePlate { get; set; } = string.Empty;
 
     [JsonPropertyName("imageTime")]
     public DateTime ImageTime { get; set; }
@@ -22,9 +22,12 @@ public class ImageItemDto
     [JsonPropertyName("url")]
     public string Url { get; set; } = string.Empty;
 
-    [JsonPropertyName("latitude")]
-    public double? Latitude { get; set; }
+    [JsonPropertyName("speed")]
+    public int Speed { get; set; }
 
-    [JsonPropertyName("longitude")]
-    public double? Longitude { get; set; }
+    [JsonPropertyName("channel")]
+    public int Channel { get; set; }
+
+    [JsonPropertyName("driverName")]
+    public string DriverName { get; set; } = string.Empty;
 }
