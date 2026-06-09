@@ -10,6 +10,8 @@ namespace LAP_API.Models;
 /// Name Date Comments
 /// dungbt 6/9/2026 created
 /// </Modified>[Table("Vehicle.Vehicles")]
+/// 
+[Table("Vehicle.Vehicles")]
 public class Vehicle
 {
     /// Khóa chính của xe.

@@ -1,8 +1,15 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LAP_API.Models;
 
+/// <summary>
+/// bảng liên kết giữa xe (Vehicle.Vehicles) và nhóm xe (Vehicle.Groups) trong database.
+/// </summary>
+/// <Modified>
+/// Name Date Comments
+/// dungbt 6/9/2026 created
+/// </Modified>
 [Table("Vehicle.VehicleGroups")]
 public class VehicleGroup
 {

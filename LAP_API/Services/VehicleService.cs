@@ -17,7 +17,9 @@ namespace LAP_API.Services;
 public class VehicleService : BaseService, IVehicleService
 {
     private readonly IHttpClientFactory _httpClientFactory;
+    // Tạm thời fix cứng CompanyId cho phiên bản hiện tại
     private const int CompanyId = 15076;
+    // Giới hạn tối đa số ngày có thể tìm kiếm ảnh để tránh tải quá nhiều dữ liệu từ hệ thống bên thứ 3
     private const int MaxImageSearchDays = 30;
 
     public VehicleService(
