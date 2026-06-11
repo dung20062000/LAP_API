@@ -1,4 +1,5 @@
-﻿using LAP_API.Repositories.VehicleRepo;
+using LAP_API.Repositories.UserVehicleGroupRepo;
+using LAP_API.Repositories.VehicleRepo;
 
 namespace LAP_API.Repositories;
 
@@ -15,5 +16,6 @@ public interface IUnitOfWork : IDisposable
 {
     IVehicleRepository Vehicles { get; }
     IGroupRepository Groups { get; }
+    IUserVehicleGroupRepository UserVehicleGroups { get; }
     Task<int> SaveChangesAsync();
 }

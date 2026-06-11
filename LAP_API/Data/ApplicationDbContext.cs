@@ -1,4 +1,4 @@
-﻿using LAP_API.Models;
+using LAP_API.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace LAP_API.Data;
@@ -22,6 +22,8 @@ public class ApplicationDbContext : DbContext
     public DbSet<Vehicle> Vehicles => Set<Vehicle>();
     public DbSet<Group> Groups => Set<Group>();
     public DbSet<VehicleGroup> VehicleGroups => Set<VehicleGroup>();
+    public DbSet<User> Users => Set<User>();
+    public DbSet<UserVehicleGroup> UserVehicleGroups => Set<UserVehicleGroup>();
 
     /// <summary>
     /// Override phương thức này để cấu hình mô hình dữ liệu của bạn. Bạn có thể sử dụng Fluent API để thiết lập các ràng buộc, quan hệ, và các thuộc tính khác cho các thực thể của mình.
@@ -50,6 +52,11 @@ public class ApplicationDbContext : DbContext
         modelBuilder.Entity<VehicleGroup>(e =>
         {
             e.HasKey(x => new { x.GroupId, x.VehicleId });
+        });
+
+        modelBuilder.Entity<UserVehicleGroup>(e =>
+        {
+            e.HasKey(x => new { x.UserId, x.VehicleGroupId });
         });
     }
 }

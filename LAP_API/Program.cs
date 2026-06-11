@@ -20,6 +20,7 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 // Services
 builder.Services.AddScoped<IVehicleService, VehicleService>();
+builder.Services.AddScoped<IUserVehicleGroupService, UserVehicleGroupService>();
 
 // Controllers
 builder.Services.AddControllers()

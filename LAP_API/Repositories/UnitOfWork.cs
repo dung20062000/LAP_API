@@ -1,4 +1,5 @@
-﻿using LAP_API.Data;
+using LAP_API.Data;
+using LAP_API.Repositories.UserVehicleGroupRepo;
 using LAP_API.Repositories.VehicleRepo;
 
 namespace LAP_API.Repositories;
@@ -20,11 +21,13 @@ public class UnitOfWork : IUnitOfWork
         _context = context;
         Vehicles = new VehicleRepository(context);
         Groups = new GroupRepository(context);
+        UserVehicleGroups = new UserVehicleGroupRepository(context);
     }
 
     /// Các repository được quản lý bởi UnitOfWork.
     public IVehicleRepository Vehicles { get; }
     public IGroupRepository Groups { get; }
+    public IUserVehicleGroupRepository UserVehicleGroups { get; }
 
     /// Lưu tất cả các thay đổi vào cơ sở dữ liệu.
     public Task<int> SaveChangesAsync()
