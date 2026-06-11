@@ -1,5 +1,13 @@
-namespace LAP_API.Repositories;
+﻿namespace LAP_API.Repositories;
 
+/// <summary>
+/// IGenericRepository định nghĩa các phương thức CRUD cơ bản cho một thực thể bất kỳ.
+/// </summary>
+/// <typeparam name="T"></typeparam>
+/// <Modified>
+/// Name Date Comments
+/// dungbt 6/11/2026 created
+/// </Modified>
 public interface IGenericRepository<T> where T : class
 {
     Task<T?> GetByIdAsync(int id);

@@ -56,6 +56,7 @@ public class Group
     [Column("MinuteB")]
     public int? MinuteB { get; set; }
 
+    /// ID tỉnh thành liên kết với nhóm (nếu có).
     [Column("FK_BGTProvinceID")]
     public int? FK_BGTProvinceID { get; set; }
 

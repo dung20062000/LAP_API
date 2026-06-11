@@ -13,12 +13,15 @@ namespace LAP_API.Models;
 [Table("Vehicle.VehicleGroups")]
 public class VehicleGroup
 {
+    // Id của công ty
     [Column("FK_CompanyID")]
     public int CompanyId { get; set; }
 
+    // Id của nhóm xe
     [Column("FK_VehicleGroupID")]
     public int GroupId { get; set; }
 
+    // Id của xe
     [Column("FK_VehicleID")]
     public int VehicleId { get; set; }
 

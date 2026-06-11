@@ -28,18 +28,21 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
     }
 
     /// <inheritdoc />
+    /// dùng để lấy một thực thể theo ID. Trả về null nếu không tìm thấy.
     public virtual async Task<T?> GetByIdAsync(int id)
     {
         return await _dbSet.FindAsync(id);
     }
 
     /// <inheritdoc />
+    /// dùng để lấy tất cả thực thể. Trả về một danh sách rỗng nếu không có thực thể nào.
     public virtual async Task<IEnumerable<T>> GetAllAsync()
     {
         return await _dbSet.AsNoTracking().ToListAsync();
     }
 
     /// <inheritdoc />
+    /// dùng để tìm kiếm thực thể theo một điều kiện cụ thể. Trả về một danh sách rỗng nếu không có thực thể nào
     public Task<IEnumerable<T>> FindAsync(Func<T, bool> predicate)
     {
         return Task.FromResult(
@@ -47,6 +50,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
     }
 
     /// <inheritdoc />
+    /// dùng để thêm một thực thể mới vào database. Trả về thực thể đã được thêm vào database, bao gồm ID nếu có.
     public virtual async Task<T> AddAsync(T entity)
     {
         await _dbSet.AddAsync(entity);
@@ -55,6 +59,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
     }
 
     /// <inheritdoc />
+    /// dùng để cập nhật một thực thể đã tồn tại trong database. Trả về void.
     public virtual async Task UpdateAsync(T entity)
     {
         _dbSet.Update(entity);
@@ -62,6 +67,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
     }
 
     /// <inheritdoc />
+    /// dùng để xóa một thực thể khỏi database dựa trên ID. Trả về void.
     public virtual async Task DeleteAsync(int id)
     {
         var entity = await GetByIdAsync(id);
@@ -73,6 +79,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
     }
 
     /// <inheritdoc />
+    /// dùng để đếm tổng số thực thể trong database. Trả về số lượng thực thể.
     public async Task<int> CountAsync()
     {
         return await _dbSet.AsNoTracking().CountAsync();
