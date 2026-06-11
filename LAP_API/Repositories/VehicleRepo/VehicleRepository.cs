@@ -39,17 +39,22 @@ public class VehicleRepository : IVehicleRepository
         try
         {
             var list = groupIds.ToList();
-            return await _context.VehicleGroups
-                .AsNoTracking()
-                // Lọc các bản ghi quan hệ xe-nhóm
+
+            // 1. Early Exit: Tránh gọi Database nếu danh sách ID rỗng
+            if (!list.Any())
+            {
+                return Enumerable.Empty<Vehicle>();
+            }
+
+            // 1 Sub-query
+            var vehicleIdsInGroup = _context.VehicleGroups
                 .Where(vg => list.Contains(vg.GroupId) && vg.IsDeleted != true && vg.CompanyId == CompanyId)
-                .Join(
-                    // Join với bảng Vehicles để lấy thông tin chi tiết xe
-                    _context.Vehicles.Where(v =>
-                        !v.IsLocked && v.IsDeleted != true && v.CompanyId == CompanyId),
-                    vg => vg.VehicleId,
-                    v => v.Id,
-                    (_, v) => v)
+                .Select(vg => vg.VehicleId);
+
+            return await _context.Vehicles
+                .AsNoTracking()
+                .Where(v => !v.IsLocked && v.IsDeleted != true && v.CompanyId == CompanyId)
+                .Where(v => vehicleIdsInGroup.Any(vgId => vgId == v.Id))
                 .ToListAsync();
         }
         catch (Exception ex)
