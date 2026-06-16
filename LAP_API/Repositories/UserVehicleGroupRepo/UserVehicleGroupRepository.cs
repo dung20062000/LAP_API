@@ -100,7 +100,8 @@ public class UserVehicleGroupRepository : IUserVehicleGroupRepository
                 .Where(uvg => uvg.UserId == userId)
                 .ToListAsync();
 
-            var existingDict = existing.ToDictionary(uvg => uvg.VehicleGroupId);
+            // dùng GroupBy + ToDictionary để tránh lỗi duplicate key nếu có nhiều bản ghi cùng VehicleGroupId (do xóa mềm) -> crash trương trình
+            var existingDict = existing.GroupBy(uvg => uvg.VehicleGroupId).ToDictionary(g => g.Key, g => g.First());
             var groupDict = groups.ToDictionary(g => g.Id);
 
             // Soft-delete các nhóm không còn trong danh sách mới

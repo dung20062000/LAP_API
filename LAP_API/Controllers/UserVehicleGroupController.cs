@@ -67,7 +67,7 @@ public class UserVehicleGroupController : BaseApiController
     public async Task<IActionResult> GetUnassignedGroups([FromQuery] Guid userId)
     {
         if (userId == Guid.Empty)
-            return FailResponse<object>("UserId không hợp lệ");
+            return FailResponse<object>("Người dùng không hợp lệ");
 
         var groups = await _userVehicleGroupService.GetUnassignedGroupsAsync(userId);
         return OkResponse(groups);
@@ -91,7 +91,7 @@ public class UserVehicleGroupController : BaseApiController
     public async Task<IActionResult> GetAssignedGroups([FromQuery] Guid userId)
     {
         if (userId == Guid.Empty)
-            return FailResponse<object>("UserId không hợp lệ");
+            return FailResponse<object>("Người dùng không hợp lệ");
 
         var groups = await _userVehicleGroupService.GetAssignedGroupsAsync(userId);
         return OkResponse(groups);
@@ -116,7 +116,7 @@ public class UserVehicleGroupController : BaseApiController
     public async Task<IActionResult> AssignGroups([FromRoute] Guid id, [FromBody] AssignGroupsRequest request)
     {
         if (id == Guid.Empty)
-            return FailResponse<object>("UserId không hợp lệ");
+            return FailResponse<object>("Người dùng không hợp lệ");
 
         if (!ModelState.IsValid)
         {
