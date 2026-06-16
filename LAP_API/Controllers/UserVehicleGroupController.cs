@@ -118,6 +118,7 @@ public class UserVehicleGroupController : BaseApiController
         if (id == Guid.Empty)
             return FailResponse<object>("Người dùng không hợp lệ");
 
+        // Validate model state để đảm bảo dữ liệu đầu vào hợp lệ (Data Annotations)
         if (!ModelState.IsValid)
         {
             var errors = ModelState
