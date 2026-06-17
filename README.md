@@ -35,50 +35,6 @@ GO
 USE LAP_DB;
 GO
 
-CREATE TABLE Users (
-    Id INT IDENTITY(1,1) PRIMARY KEY,
-    Username NVARCHAR(50) NOT NULL UNIQUE,
-    PasswordHash NVARCHAR(500) NOT NULL,
-    Email NVARCHAR(100),
-    FullName NVARCHAR(100),
-    Role NVARCHAR(50) DEFAULT 'User',
-    Avatar NVARCHAR(500),
-    IsActive BIT DEFAULT 1,
-    CreatedAt DATETIME2 DEFAULT GETUTCDATE(),
-    UpdatedAt DATETIME2
-);
-
-CREATE TABLE Banners (
-    Id INT IDENTITY(1,1) PRIMARY KEY,
-    ImageUrl NVARCHAR(500) NOT NULL,
-    TitleVi NVARCHAR(255) NOT NULL,
-    TitleEn NVARCHAR(255),
-    ShortContentVi NVARCHAR(500),
-    ShortContentEn NVARCHAR(500),
-    Link NVARCHAR(500),
-    DisplayOrder INT DEFAULT 0,
-    IsActive BIT DEFAULT 1,
-    CreatedAt DATETIME2 DEFAULT GETUTCDATE(),
-    UpdatedAt DATETIME2
-);
-
-CREATE TABLE Branches (
-    Id INT IDENTITY(1,1) PRIMARY KEY,
-    CityVi NVARCHAR(100) NOT NULL,
-    CityEn NVARCHAR(100),
-    Address NVARCHAR(500) NOT NULL,
-    IsActive BIT DEFAULT 1,
-    DisplayOrder INT DEFAULT 0,
-    CreatedAt DATETIME2 DEFAULT GETUTCDATE()
-);
-
--- Insert default admin user (password: admin@123)
-INSERT INTO Users (Username, PasswordHash, Email, FullName, Role)
-VALUES ('admin', 'jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg=', 'admin@bagps.com', 'Administrator', 'Admin');
-```
-
-> Password hash for `admin@123` = `jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg=` (SHA256 base64)
-
 ---
 
 ## 2. Configure Connection String
@@ -107,47 +63,6 @@ The API will start at:
 - HTTPS: https://localhost:7202
 - Swagger UI: http://localhost:5055/swagger
 
----
-
-## 4. API Endpoints
-
-### Authentication
-| Method | Endpoint | Auth | Description |
-|--------|----------|------|-------------|
-| POST | `/api/auth` | No | Login |
-| POST | `/api/auth/logout` | Yes | Logout |
-| POST | `/api/auth/refresh` | No | Refresh token |
-
-### Banners
-| Method | Endpoint | Auth | Description |
-|--------|----------|------|-------------|
-| GET | `/api/banners` | No | Get all active banners |
-| GET | `/api/banners/{id}` | No | Get banner by ID |
-| POST | `/api/banners` | Yes | Create banner |
-| PUT | `/api/banners/{id}` | Yes | Update banner |
-| DELETE | `/api/banners/{id}` | Yes | Soft delete banner |
-
----
-
-## 5. Update LAP_CLIENT to use API
-
-In `LAP_CLIENT/src/app/services/auth.service.ts`, replace the mock login with:
-
-```typescript
-login(credentials: LoginRequest, rememberMe: boolean): Observable<ApiResponse<LoginResponse>> {
-  return this.http.post<ApiResponse<LoginResponse>>(`${this.API_URL}`, credentials);
-}
-```
-
-In `LAP_CLIENT/src/app/shared/services/banner.service.ts`, replace the mock with:
-
-```typescript
-readonly getBanners = (): Observable<BannerSlide[]> => {
-  return this.http.get<BannerSlide[]>('/api/banners').pipe(
-    map(res => res.success && res.data ? res.data : [])
-  );
-};
-```
 
 Also update `LAP_CLIENT/proxy.conf.json` to proxy `/api` requests to the backend:
 
