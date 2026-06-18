@@ -12,15 +12,14 @@ namespace LAP_API.Repositories.UserVehicleGroupRepo;
 /// Name     Date         Comments
 /// dungbt   6/11/2026    created
 /// </Modified>
-public class UserVehicleGroupRepository : IUserVehicleGroupRepository
+public class UserVehicleGroupRepository : GenericRepository<UserVehicleGroup>, IUserVehicleGroupRepository
 {
-    private readonly ApplicationDbContext _context;
-
     // Fix cứng CompanyId vì hiện tại chỉ phục vụ 1 công ty
     private const int CompanyId = 15076;
 
-    public UserVehicleGroupRepository(ApplicationDbContext context)
-        => _context = context;
+    public UserVehicleGroupRepository(ApplicationDbContext context) : base(context)
+    {
+    }
 
 
     /// <summary>

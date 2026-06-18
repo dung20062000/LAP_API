@@ -10,7 +10,7 @@ namespace LAP_API.Repositories.UserVehicleGroupRepo;
 /// Name     Date         Comments
 /// dungbt   6/11/2026    created
 /// </Modified>
-public interface IUserVehicleGroupRepository
+public interface IUserVehicleGroupRepository : IGenericRepository<UserVehicleGroup>
 {
     /// <summary>
     /// Lấy danh sách người dùng đang hoạt động của công ty (không bị khóa, không bị xóa).

@@ -13,15 +13,14 @@ namespace LAP_API.Repositories.VehicleRepo;
 /// dungbt 6/9/2026 created
 /// </Modified>
 /// <seealso cref="LAP_API.Repositories.VehicleRepo.IGroupRepository" />
-public class GroupRepository : IGroupRepository
+public class GroupRepository : GenericRepository<Group>, IGroupRepository
 {
-    private readonly ApplicationDbContext _context;
-
     // fix cứng CompanyId vì hiện tại chỉ có 1 công ty, sau này nếu có nhiều công ty thì sẽ cần thay đổi
     private const int CompanyId = 15076;
 
-    public GroupRepository(ApplicationDbContext context)
-        => _context = context;
+    public GroupRepository(ApplicationDbContext context) : base(context)
+    {
+    }
 
 
     /// <summary>

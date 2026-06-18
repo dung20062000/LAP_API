@@ -1,5 +1,7 @@
 ﻿using LAP_API.Models;
 
+using LAP_API.Models;
+
 namespace LAP_API.Repositories.VehicleRepo;
 
 
@@ -10,7 +12,7 @@ namespace LAP_API.Repositories.VehicleRepo;
 /// Name Date Comments
 /// dungbt 6/9/2026 created
 /// </Modified>
-public interface IGroupRepository
+public interface IGroupRepository : IGenericRepository<Group>
 {
     Task<IEnumerable<Group>> GetAllActiveAsync();
     Task<Dictionary<int, int>> GetVehicleCountByGroupIdsAsync(IEnumerable<int> groupIds);

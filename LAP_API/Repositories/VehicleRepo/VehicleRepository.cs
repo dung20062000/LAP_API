@@ -13,14 +13,14 @@ namespace LAP_API.Repositories.VehicleRepo;
 /// dungbt 6/9/2026 created
 /// </Modified>
 /// <seealso cref="LAP_API.Repositories.VehicleRepo.IVehicleRepository" />
-public class VehicleRepository : IVehicleRepository
+public class VehicleRepository : GenericRepository<Vehicle>, IVehicleRepository
 {
-    private readonly ApplicationDbContext _context;
     // Tạm thời fix cứng CompanyId cho phiên bản hiện tại
     private const int CompanyId = 15076;
 
-    public VehicleRepository(ApplicationDbContext context)
-        => _context = context;
+    public VehicleRepository(ApplicationDbContext context) : base(context)
+    {
+    }
 
 
     /// <summary>

@@ -11,7 +11,7 @@ namespace LAP_API.Repositories.VehicleRepo;
 /// Name Date Comments
 /// dungbt 6/9/2026 created
 /// </Modified>
-public interface IVehicleRepository
+public interface IVehicleRepository : IGenericRepository<Vehicle>
 {
     Task<IEnumerable<Vehicle>> GetByGroupIdsAsync(IEnumerable<int> groupIds);
     Task<IEnumerable<Vehicle>> GetActiveVehiclesAsync();
