@@ -168,9 +168,6 @@ public class VehicleService : BaseService, IVehicleService
         if (request.StartTime > DateTime.Now)
             return (null, "Giờ bắt đầu không được lớn hơn thời gian hiện tại");
 
-        if (request.EndTime > DateTime.Now)
-            return (null, "Giờ kết thúc không được lớn hơn thời gian hiện tại");
-
         if (request.StartTime < DateTime.Now.Date.AddDays(-MaxImageSearchDays))
             return (null, $"Thời gian chọn không được cách ngày hiện tại quá {MaxImageSearchDays} ngày");
 
