@@ -2,6 +2,7 @@ using LAP_API.DTOs.Vehicle;
 using LAP_API.Repositories;
 using Microsoft.Extensions.Logging;
 using System.Net.Http.Json;
+using System.Text.Json;
 
 namespace LAP_API.Services;
 
@@ -207,38 +208,39 @@ public class VehicleService : BaseService, IVehicleService
                 return (null, "Không thể lấy dữ liệu ảnh từ hệ thống");
             }
 
-            var json = await response.Content.ReadAsStringAsync();
-            using var doc = System.Text.Json.JsonDocument.Parse(json);
-            var items = new List<ImageItemDto>();
+            // ReadFromJsonAsync sẽ tự động parse JSON thành object, nếu format JSON khác thì sẽ trả về null
+            var jsonString = await response.Content.ReadAsStringAsync();
+            var externalItems = new List<ExternalImageItem>();
 
-            System.Text.Json.JsonElement arr = default;
-            if (doc.RootElement.TryGetProperty("data", out var dataEl))
-                arr = dataEl;
-            else if (doc.RootElement.TryGetProperty("Data", out dataEl))
-                arr = dataEl;
-            else if (doc.RootElement.TryGetProperty("items", out dataEl))
-                arr = dataEl;
-            else if (doc.RootElement.TryGetProperty("Items", out dataEl))
-                arr = dataEl;
-            else if (doc.RootElement.ValueKind == System.Text.Json.JsonValueKind.Array)
-                arr = doc.RootElement;
-
-            if (arr.ValueKind == System.Text.Json.JsonValueKind.Array)
+            if (!string.IsNullOrWhiteSpace(jsonString))
             {
-                foreach (var item in arr.EnumerateArray())
+                var trimmedJson = jsonString.TrimStart();
+
+                // KIỂM TRA ĐỊNH DẠNG JSON
+                if (trimmedJson.StartsWith("["))
                 {
-                    items.Add(new ImageItemDto
-                    {
-                        // Mapping short keys from API response
-                        VehiclePlate = item.TryGetProperty("v", out var v) ? v.GetString() ?? "" : "",
-                        ImageTime = item.TryGetProperty("c", out var it) ? it.GetDateTime() : DateTime.MinValue,
-                        Url = item.TryGetProperty("u", out var u) ? u.GetString() ?? "" : "",
-                        Speed = item.TryGetProperty("s", out var s) ? s.GetInt32() : 0,
-                        Channel = item.TryGetProperty("k", out var ch) ? ch.GetInt32() : 0,
-                        DriverName = item.TryGetProperty("n", out var n) ? n.GetString() ?? "" : "",
-                    });
+                    // Nếu là Mảng
+                    //PropertyNameCaseInsensitive true để không phân biệt chữ hoa chữ thường khi ánh xạ tên property
+                    externalItems = JsonSerializer.Deserialize<List<ExternalImageItem>>(jsonString, new JsonSerializerOptions { PropertyNameCaseInsensitive = true })
+                                    ?? new List<ExternalImageItem>();
+                }
+                else if (trimmedJson.StartsWith("{"))
+                {
+                    // Nếu là Object
+                    var apiResponse = JsonSerializer.Deserialize<ExternalImageApiResponse>(jsonString, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                    externalItems = apiResponse?.GetItems() ?? new List<ExternalImageItem>();
                 }
             }
+
+            var items = externalItems.Select(item => new ImageItemDto
+            {
+                VehiclePlate = item.VehiclePlate,
+                ImageTime = item.ImageTime,
+                Url = item.Url,
+                Speed = item.Speed,
+                Channel = item.Channel,
+                DriverName = item.DriverName
+            }).ToList();
 
             var sorted = request.SortOrder == "asc"
                 ? items.OrderBy(x => x.ImageTime)
