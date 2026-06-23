@@ -40,8 +40,6 @@ public class UserVehicleGroupService : BaseService, IUserVehicleGroupService
             UserId = u.Id,
             Username = u.Username,
             Fullname = u.Fullname,
-            Email = u.Email,
-            UserType = u.UserType,
         }).ToList();
     }
 

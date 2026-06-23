@@ -22,12 +22,4 @@ public class UserDto
     /// Tên hiển thị đầy đủ.
     [JsonPropertyName("fullname")]
     public string Fullname { get; set; } = string.Empty;
-
-    /// Email người dùng.
-    [JsonPropertyName("email")]
-    public string? Email { get; set; }
-
-    /// Loại người dùng (0=Normal, 1=Admin).
-    [JsonPropertyName("userType")]
-    public byte UserType { get; set; }
 }

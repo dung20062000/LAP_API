@@ -44,8 +44,4 @@ public class Vehicle
     /// Mã xí nghiệp quản lý.
     [Column("XNCode")]
     public int XNCode { get; set; }
-
-    /// Xe có hỗ trợ xem video trực tuyến hay không.
-    [Column("IsVideoCam")]
-    public bool? IsVideoCam { get; set; }
 }

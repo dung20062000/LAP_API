@@ -43,26 +43,4 @@ public class User
     /// Trạng thái xóa mềm.
     [Column("IsDeleted")]
     public bool? IsDeleted { get; set; }
-
-    /// Trạng thái kích hoạt.
-    [Column("IsActived")]
-    public bool IsActived { get; set; }
-
-    /// Email người dùng.
-    [MaxLength(50)]
-    [Column("Email")]
-    public string? Email { get; set; }
-
-    /// Số điện thoại.
-    [MaxLength(50)]
-    [Column("PhoneNumber")]
-    public string? PhoneNumber { get; set; }
-
-    /// Thời điểm đăng nhập gần nhất.
-    [Column("LastLoginDate")]
-    public DateTime? LastLoginDate { get; set; }
-
-    /// Ngày tạo tài khoản.
-    [Column("CreatedDate")]
-    public DateTime? CreatedDate { get; set; }
 }

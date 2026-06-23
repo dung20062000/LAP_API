@@ -26,17 +26,9 @@ public class UserVehicleGroup
     [Column("ParentVehicleGroupID")]
     public int? ParentVehicleGroupId { get; set; }
 
-    /// Người tạo bản ghi.
-    [Column("CreatedByUser")]
-    public Guid? CreatedByUser { get; set; }
-
     /// Ngày tạo bản ghi.
     [Column("CreatedDate")]
     public DateTime? CreatedDate { get; set; }
-
-    /// Người cập nhật bản ghi.
-    [Column("UpdatedByUser")]
-    public Guid? UpdatedByUser { get; set; }
 
     /// Ngày cập nhật bản ghi.
     [Column("UpdatedDate")]
