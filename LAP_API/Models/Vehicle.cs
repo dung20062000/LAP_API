@@ -33,11 +33,6 @@ public class Vehicle
     [Column("PrivateCode")]
     public string PrivateCode { get; set; } = string.Empty;
 
-    /// Mã định danh thiết bị định vị (IMEI).
-    [MaxLength(32)]
-    [Column("IMEI")]
-    public string? IMEI { get; set; }
-
     /// Trạng thái xe bị khóa (ví dụ do nợ cước).
     [Column("IsLocked")]
     public bool IsLocked { get; set; }
@@ -49,10 +44,6 @@ public class Vehicle
     /// Mã xí nghiệp quản lý.
     [Column("XNCode")]
     public int XNCode { get; set; }
-
-    /// Xe có gắn camera hay không.
-    [Column("IsCam")]
-    public bool IsCam { get; set; }
 
     /// Xe có hỗ trợ xem video trực tuyến hay không.
     [Column("IsVideoCam")]

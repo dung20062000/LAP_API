@@ -32,30 +32,6 @@ public class Group
     [Column("Name")]
     public string GroupName { get; set; } = string.Empty;
 
-    [Column("CreatedByUser")]
-    public Guid? CreatedByUser { get; set; }
-
-    [Column("CreatedDate")]
-    public DateTime? CreatedDate { get; set; }
-
-    [Column("UpdatedByUser")]
-    public Guid? UpdatedByUser { get; set; }
-
-    [Column("UpdatedDate")]
-    public DateTime? UpdatedDate { get; set; }
-
-    [Column("DistanceA")]
-    public double? DistanceA { get; set; }
-
-    [Column("DistanceB")]
-    public double? DistanceB { get; set; }
-
-    [Column("MinuteA")]
-    public int? MinuteA { get; set; }
-
-    [Column("MinuteB")]
-    public int? MinuteB { get; set; }
-
     /// ID tỉnh thành liên kết với nhóm (nếu có).
     [Column("FK_BGTProvinceID")]
     public int? FK_BGTProvinceID { get; set; }
@@ -63,9 +39,6 @@ public class Group
     /// Đánh dấu nhóm đã bị xóa (Soft delete).
     [Column("IsDeleted")]
     public bool? IsDeleted { get; set; }
-
-    [Column("Flag")]
-    public int Flag { get; set; }
 
     /// Trạng thái hoạt động của nhóm.
     [Column("Status")]
