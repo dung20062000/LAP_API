@@ -118,10 +118,38 @@ public class UserVehicleGroupService : BaseService, IUserVehicleGroupService
         if (!targetGroups.Any())
             return new List<VehicleGroupNodeDto>();
 
-        var targetIds = targetGroups.Select(g => g.Id).ToHashSet();
+        var allGroupsDict = allGroups.ToDictionary(g => g.Id);
+        var nodesToInclude = new HashSet<int>();
+
+        // Xây dựng tập hợp các node cần hiển thị (bao gồm cả các node cha bị thiếu)
+        foreach (var group in targetGroups)
+        {
+            var current = group;
+            nodesToInclude.Add(current.Id);
+
+            // Truy ngược lên để thêm các node cha ảo nếu chưa có
+            while (current.ParentVehicleGroupID.HasValue)
+            {
+                var parentId = current.ParentVehicleGroupID.Value;
+                if (!nodesToInclude.Add(parentId))
+                    break; // Cha này đã được thêm
+
+                if (allGroupsDict.TryGetValue(parentId, out var parentGroup))
+                {
+                    current = parentGroup;
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+
+        // Lọc danh sách gốc để giữ đúng thứ tự
+        var orderedNodes = allGroups.Where(g => nodesToInclude.Contains(g.Id)).ToList();
 
         // Tạo dictionary nhanh để tra cứu node
-        var nodeDict = targetGroups.ToDictionary(
+        var nodeDict = orderedNodes.ToDictionary(
             g => g.Id,
             g => new VehicleGroupNodeDto
             {
@@ -134,20 +162,20 @@ public class UserVehicleGroupService : BaseService, IUserVehicleGroupService
 
         var rootNodes = new List<VehicleGroupNodeDto>();
 
-        // Xây dựng cây: gắn node con vào node cha nếu cha cũng trong targetIds
-        foreach (var group in targetGroups)
+        // Xây dựng cây
+        foreach (var node in orderedNodes)
         {
-            var node = nodeDict[group.Id];
+            var dto = nodeDict[node.Id];
 
-            if (group.ParentVehicleGroupID.HasValue && targetIds.Contains(group.ParentVehicleGroupID.Value))
+            if (dto.ParentId.HasValue && nodeDict.TryGetValue(dto.ParentId.Value, out var parentNode))
             {
-                // Cha nằm trong cùng tập => gắn vào cha
-                nodeDict[group.ParentVehicleGroupID.Value].Children.Add(node);
+                // Gắn vào cha
+                parentNode.Children.Add(dto);
             }
             else
             {
-                // Cha không nằm trong tập (hoặc không có cha) => coi là node gốc
-                rootNodes.Add(node);
+                // Node gốc
+                rootNodes.Add(dto);
             }
         }
 
