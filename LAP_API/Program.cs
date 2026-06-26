@@ -1,8 +1,11 @@
+using System.Data;
 using System.Text.Json.Serialization;
 using LAP_API.Data;
 using LAP_API.Middlewares;
 using LAP_API.Repositories;
+using LAP_API.Repositories.DriverRepo;
 using LAP_API.Services;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -15,12 +18,20 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 // HTTP Client Factory
 builder.Services.AddHttpClient();
 
-// Repository
+// Dapper IDbConnection — dùng SqlConnection (Scoped, mỗi request một instance)
+builder.Services.AddScoped<IDbConnection>(_ =>
+    new SqlConnection(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Repository (EF Core — UnitOfWork)
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+// Repository (Dapper — Driver)
+builder.Services.AddScoped<IDriverRepository, DriverRepository>();
 
 // Services
 builder.Services.AddScoped<IVehicleService, VehicleService>();
 builder.Services.AddScoped<IUserVehicleGroupService, UserVehicleGroupService>();
+builder.Services.AddScoped<IDriverService, DriverService>();
 
 // Controllers
 builder.Services.AddControllers()

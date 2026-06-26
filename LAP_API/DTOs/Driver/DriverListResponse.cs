@@ -1,0 +1,17 @@
+namespace LAP_API.DTOs.Driver;
+
+/// <summary>
+/// Response phân trang cho lưới danh sách lái xe.
+/// </summary>
+/// <Modified>
+/// Name       Date        Comments
+/// dungbt     6/26/2026   created
+/// </Modified>
+public class DriverListResponse
+{
+    /// Tổng số bản ghi thỏa điều kiện lọc
+    public int TotalRecord { get; set; }
+
+    /// Danh sách dữ liệu trang hiện tại
+    public IEnumerable<DriverDto> Items { get; set; } = Enumerable.Empty<DriverDto>();
+}
