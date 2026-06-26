@@ -16,30 +16,30 @@ public class UpdateDriverRequest
     public int Id { get; set; }
 
     /// Tên hiển thị lái xe (bắt buộc, tối đa 100 ký tự) (Nvachar)
-    [Required]
+    [Required(ErrorMessage = "Trường DisplayName không được để trống")]
     [MaxLength(100, ErrorMessage = "DisplayName không được vượt quá 100 ký tự.")]
     public string DisplayName { get; set; }
 
     /// Số giấy phép lái xe (vachar)
-    [Required]
+    [Required(ErrorMessage = "Trường DriverLicense không được để trống")]
     [MaxLength(32, ErrorMessage = "Số giấy phép lái xe không được vượt quá 32 ký tự.")]
     public string? DriverLicense { get; set; }
 
     /// Ngày cấp bằng lái
-    [Required]
+    [Required(ErrorMessage = "Trường IssueLicenseDate không được để trống")]
     public DateTime? IssueLicenseDate { get; set; }
 
     /// Ngày hết hạn bằng lái
-    [Required]
+    [Required(ErrorMessage = "Trường ExpireLicenseDate không được để trống")]
     public DateTime? ExpireLicenseDate { get; set; }
 
     /// Nơi cấp bằng lái (Nvachar)
-    [Required]
-    [MaxLength(150, ErrorMessage = "Nơi cấp bằng lái không được vượt quá 100 ký tự.")]
+    [Required(ErrorMessage = "Trường IssueLicensePlace không được để trống")]
+    [MaxLength(150, ErrorMessage = "Nơi cấp bằng lái không được vượt quá 150 ký tự.")]
     public string? IssueLicensePlace { get; set; }
 
     /// Loại bằng (FK sang BCA.LicenseTypes)
-    [Required]
+    [Required(ErrorMessage = "Trường LicenseType không được để trống")]
     public int? LicenseType { get; set; }
 
     /// Số điện thoại di động
