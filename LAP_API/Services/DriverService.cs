@@ -151,38 +151,63 @@ public class DriverService : BaseService, IDriverService
     /// </Modified>
     public async Task<FileStreamResult> ExportExcelAsync(DriverExportRequest request)
     {
-        // EPPlus NonCommercial — chỉ dùng cho dự án cá nhân/phi thương mại
+        // EPPlus NonCommercial
         ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
         var data = (await _driverRepo.GetForExportAsync(request)).ToList();
+        
+        // Lấy danh sách loại bằng để có tên
+        var licenseTypes = (await _driverRepo.GetLicenseTypeLookupAsync())
+            .ToDictionary(x => x.Value, x => x.Name);
 
         using var package = new ExcelPackage();
-        var ws = package.Workbook.Worksheets.Add("Danh sách lái xe");
+        var ws = package.Workbook.Worksheets.Add("Data");
 
-        // ── Dòng 1: Tiêu đề ──────────────────────────────────────────────
-        ws.Cells[1, 1].Value = "DANH SÁCH LÁI XE";
+        // Dòng Tiêu đề
+        ws.Cells[1, 1].Value = "THÔNG TIN LÁI XE";
         ws.Cells[1, 1, 1, 9].Merge = true;
         ws.Cells[1, 1].Style.Font.Bold = true;
         ws.Cells[1, 1].Style.Font.Size = 14;
         ws.Cells[1, 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
 
-        // ── Dòng 2: Thông tin bộ lọc ─────────────────────────────────────
-        var filterParts = new List<string>();
+        // Thông tin bộ lọc (mỗi bộ lọc một dòng)
+        int currentRow = 2;
+        
         if (!string.IsNullOrWhiteSpace(request.Keyword))
-            filterParts.Add($"Từ khóa: {request.Keyword}");
+        {
+            ws.Cells[currentRow, 1].Value = $"Từ khóa: {request.Keyword}";
+            ws.Cells[currentRow, 1, currentRow, 9].Merge = true;
+            ws.Cells[currentRow, 1].Style.Font.Italic = true;
+            currentRow++;
+        }
+
         if (request.DriverIds.Count > 0)
-            filterParts.Add($"Số lái xe đã chọn: {request.DriverIds.Count}");
+        {
+            ws.Cells[currentRow, 1].Value = $"Số lái xe đã chọn: {request.DriverIds.Count}";
+            ws.Cells[currentRow, 1, currentRow, 9].Merge = true;
+            ws.Cells[currentRow, 1].Style.Font.Italic = true;
+            currentRow++;
+        }
+
         if (request.LicenseTypeIds.Count > 0)
-            filterParts.Add($"Loại bằng đã chọn: {request.LicenseTypeIds.Count}");
+        {
+            var licenseTypeNames = request.LicenseTypeIds
+                .Where(id => licenseTypes.ContainsKey(id))
+                .Select(id => licenseTypes[id])
+                .ToList();
+            
+            var licenseTypesText = string.Join(", ", licenseTypeNames);
+            ws.Cells[currentRow, 1].Value = $"Loại bằng đã chọn: {licenseTypesText}";
+            ws.Cells[currentRow, 1, currentRow, 9].Merge = true;
+            ws.Cells[currentRow, 1].Style.Font.Italic = true;
+            currentRow++;
+        }
 
-        ws.Cells[2, 1].Value = filterParts.Count > 0
-            ? $"Bộ lọc: {string.Join(" | ", filterParts)}"
-            : "Bộ lọc: Tất cả";
-        ws.Cells[2, 1, 2, 9].Merge = true;
-        ws.Cells[2, 1].Style.Font.Italic = true;
+       
+        currentRow++; // Bỏ qua một dòng trống
 
-        // ── Dòng 6: Header cột ───────────────────────────────────────────
-        const int headerRow = 6;
+        // Header cột 
+        int headerRow = currentRow;
         string[] headers =
         {
             "STT", "Họ và tên", "Số điện thoại", "Số giấy phép lái xe",
@@ -202,7 +227,7 @@ public class DriverService : BaseService, IDriverService
             ApplyBorder(cell);
         }
 
-        // ── Dòng 7+: Dữ liệu ─────────────────────────────────────────────
+        // Dòng 7+: Dữ liệu
         for (int i = 0; i < data.Count; i++)
         {
             var row = headerRow + 1 + i;
@@ -216,24 +241,39 @@ public class DriverService : BaseService, IDriverService
             ws.Cells[row, 6].Value = driver.ExpireLicenseDate?.ToString("dd/MM/yyyy");
             ws.Cells[row, 7].Value = driver.IssueLicensePlace;
             ws.Cells[row, 8].Value = driver.LicenseTypeName;
-            ws.Cells[row, 9].Value = driver.UpdatedDate?.ToString("dd/MM/yyyy HH:mm");
-
-            // Màu xen kẽ dòng
-            var rowBgColor = i % 2 == 0
-                ? System.Drawing.Color.White
-                : System.Drawing.Color.FromArgb(235, 241, 250);
+            ws.Cells[row, 9].Value = driver.UpdatedDate?.ToString("HH:mm\ndd/MM/yyyy");
 
             for (int col = 1; col <= 9; col++)
             {
                 var cell = ws.Cells[row, col];
                 cell.Style.Fill.PatternType = ExcelFillStyle.Solid;
-                cell.Style.Fill.BackgroundColor.SetColor(rowBgColor);
+                cell.Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.White);
+
+                // Căn giữa theo chiều dọc cho toàn bộ data
+                cell.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
+                // Căn lề
+                if (col == 2)
+                {
+                    cell.Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
+                }
+                else // Các cột còn lại
+                {
+                    cell.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                }
+
+                // Bật WrapText (tự động xuống dòng) cho cột 9
+                if (col == 9)
+                {
+                    cell.Style.WrapText = true;
+                }
+
                 ApplyBorder(cell);
             }
         }
 
-        // ── Auto-fit cột ─────────────────────────────────────────────────
-        ws.Cells[ws.Dimension.Address].AutoFitColumns();
+        // Auto-fit cột
+        ws.Cells[ws.Dimension.Address].AutoFitColumns(12);
         // Đảm bảo cột STT không quá hẹp
         ws.Column(1).Width = Math.Max(ws.Column(1).Width, 6);
 
