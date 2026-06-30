@@ -156,6 +156,9 @@ public class DriverRepository : IDriverRepository
             ORDER BY e.CreatedDate ASC
             OFFSET @Skip ROWS FETCH NEXT @Take ROWS ONLY;";
 
+        //Bắn 1 request duy nhất mang theo cả 2 câu SQL xuống Database.
+        //Tối ưu hóa hiệu năng, tránh 2 lần round-trip.
+        //QueryMultipleAsync trả về một GridReader để đọc nhiều result set.
         using var multi = await _db.QueryMultipleAsync(sql, parameters);
         var totalRecord = await multi.ReadFirstAsync<int>();
         var items = await multi.ReadAsync<DriverDto>();
@@ -168,7 +171,7 @@ public class DriverRepository : IDriverRepository
     /// Mở IDbTransaction, duyệt qua danh sách và execute UPDATE từng dòng.
     /// Bắt buộc cập nhật UpdatedDate = GETDATE(). Rollback nếu có lỗi.
     /// </summary>
-    /// <param name="items"></param>
+    /// <param name="items">Danh sách lái xe cần được update</param>
     /// <returns></returns>
     /// <Modified>
     /// Name Date Comments

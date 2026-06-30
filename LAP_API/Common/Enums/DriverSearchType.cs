@@ -1,7 +1,7 @@
-namespace LAP_API.Common.Enums;
+Ôªønamespace LAP_API.Common.Enums;
 
 /// <summary>
-/// Lo?i tÏm ki?m cho danh s·ch l·i xe.
+/// Enum t√¨m ki·∫øm cho danh s√°ch l√°i xe.
 /// </summary>
 /// <Modified>
 /// Name       Date        Comments
@@ -10,12 +10,12 @@ namespace LAP_API.Common.Enums;
 public enum DriverSearchType : byte
 {
     /// <summary>
-    /// TÏm theo tÍn l·i xe.
+    /// T√¨m theo t√™n l√°i xe.
     /// </summary>
     Name = 0,
 
     /// <summary>
-    /// TÏm theo s? gi?y phÈp l·i xe.
+    /// T√¨m theo s·ªë gi·∫•y ph√©p l√°i xe.
     /// </summary>
     DriverLicense = 1
 }
