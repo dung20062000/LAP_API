@@ -1,7 +1,8 @@
-using System.Data;
 using Dapper;
 using LAP_API.Common.Enums;
 using LAP_API.DTOs.Driver;
+using Microsoft.AspNetCore.Hosting.Server;
+using System.Data;
 
 namespace LAP_API.Repositories.DriverRepo;
 
@@ -109,7 +110,8 @@ public class DriverRepository : IDriverRepository
                 ? "e.DriverLicense"
                 : "e.DisplayName";
 
-            whereClauses.Add($"{keywordColumn} LIKE @Keyword");
+            //ép kiểu dữ liệu trong SQL Server chuyển sang dạng đối chiếu: CI và AI (Case Insensitive, Accent Insensitive) để tìm kiếm không phân biệt chữ hoa chữ thường và dấu.
+            whereClauses.Add($"{keywordColumn} COLLATE SQL_Latin1_General_CP1_CI_AI LIKE @Keyword");
             parameters.Add("Keyword", $"%{request.Keyword.Trim()}%", DbType.String);
         }
 
@@ -280,7 +282,7 @@ public class DriverRepository : IDriverRepository
                 ? "e.DriverLicense"
                 : "e.DisplayName";
 
-            whereClauses.Add($"{keywordColumn} LIKE @Keyword");
+            whereClauses.Add($"{keywordColumn} COLLATE SQL_Latin1_General_CP1_CI_AI LIKE @Keyword");
             parameters.Add("Keyword", $"%{request.Keyword.Trim()}%", DbType.String);
         }
 
