@@ -81,7 +81,7 @@ public class DriverService : BaseService, IDriverService
     /// </Modified>
     public async Task<DriverListResponse> GetListAsync(DriverListRequest request)
     {
-        // Đảm bảo giá trị phân trang hợp lệ
+        /// Đảm bảo giá trị phân trang hợp lệ
         if (request.Page < 1) request.Page = 1;
         if (request.PageSize < 1) request.PageSize = 20;
 
@@ -151,26 +151,26 @@ public class DriverService : BaseService, IDriverService
     /// </Modified>
     public async Task<FileStreamResult> ExportExcelAsync(DriverExportRequest request)
     {
-        // EPPlus NonCommercial
+        /// EPPlus NonCommercial
         ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
         var data = (await _driverRepo.GetForExportAsync(request)).ToList();
         
-        // Lấy danh sách loại bằng để có tên
+        /// Lấy danh sách loại bằng để có tên
         var licenseTypes = (await _driverRepo.GetLicenseTypeLookupAsync())
             .ToDictionary(x => x.Value, x => x.Name);
 
         using var package = new ExcelPackage();
         var ws = package.Workbook.Worksheets.Add("Data");
 
-        // Dòng Tiêu đề
+        /// Dòng Tiêu đề
         ws.Cells[1, 1].Value = "THÔNG TIN LÁI XE";
         ws.Cells[1, 1, 1, 9].Merge = true;
         ws.Cells[1, 1].Style.Font.Bold = true;
         ws.Cells[1, 1].Style.Font.Size = 14;
         ws.Cells[1, 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
 
-        // Thông tin bộ lọc (mỗi bộ lọc một dòng)
+        /// Thông tin bộ lọc (mỗi bộ lọc một dòng)
         int currentRow = 2;
         
         if (!string.IsNullOrWhiteSpace(request.Keyword))
@@ -204,9 +204,9 @@ public class DriverService : BaseService, IDriverService
         }
 
        
-        currentRow++; // Bỏ qua một dòng trống
+        currentRow++; /// Bỏ qua một dòng trống
 
-        // Header cột 
+        /// Header cột 
         int headerRow = currentRow;
         string[] headers =
         {
@@ -227,7 +227,7 @@ public class DriverService : BaseService, IDriverService
             ApplyBorder(cell);
         }
 
-        // Dòng 7+: Dữ liệu
+        /// Dòng 7+: Dữ liệu
         for (int i = 0; i < data.Count; i++)
         {
             var row = headerRow + 1 + i;
@@ -249,20 +249,20 @@ public class DriverService : BaseService, IDriverService
                 cell.Style.Fill.PatternType = ExcelFillStyle.Solid;
                 cell.Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.White);
 
-                // Căn giữa theo chiều dọc cho toàn bộ data
+                /// Căn giữa theo chiều dọc cho toàn bộ data
                 cell.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
 
-                // Căn lề
+                /// Căn lề
                 if (col == 2)
                 {
                     cell.Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
                 }
-                else // Các cột còn lại
+                else /// Các cột còn lại
                 {
                     cell.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 }
 
-                // Bật WrapText (tự động xuống dòng) cho cột 9
+                /// Bật WrapText (tự động xuống dòng) cho cột 9
                 if (col == 9)
                 {
                     cell.Style.WrapText = true;
@@ -272,9 +272,9 @@ public class DriverService : BaseService, IDriverService
             }
         }
 
-        // Auto-fit cột
+        /// Auto-fit cột
         ws.Cells[ws.Dimension.Address].AutoFitColumns(12);
-        // Đảm bảo cột STT không quá hẹp
+        /// Đảm bảo cột STT không quá hẹp
         ws.Column(1).Width = Math.Max(ws.Column(1).Width, 6);
 
         var stream = new MemoryStream(package.GetAsByteArray());

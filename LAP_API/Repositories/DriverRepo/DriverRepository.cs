@@ -97,7 +97,7 @@ public class DriverRepository : IDriverRepository
         parameters.Add("Skip", request.Skip, DbType.Int32);
         parameters.Add("Take", request.PageSize, DbType.Int32);
 
-        // Xây dựng mệnh đề WHERE động
+        /// Xây dựng mệnh đề WHERE động
         var whereClauses = new List<string>
         {
             "e.FK_CompanyID = @CompanyId",
@@ -110,7 +110,7 @@ public class DriverRepository : IDriverRepository
                 ? "e.DriverLicense"
                 : "e.DisplayName";
 
-            //ép kiểu dữ liệu trong SQL Server chuyển sang dạng đối chiếu: CI và AI (Case Insensitive, Accent Insensitive) để tìm kiếm không phân biệt chữ hoa chữ thường và dấu.
+            /// ép kiểu dữ liệu trong SQL Server chuyển sang dạng đối chiếu: CI và AI (Case Insensitive, Accent Insensitive) để tìm kiếm không phân biệt chữ hoa chữ thường và dấu.
             whereClauses.Add($"{keywordColumn} COLLATE SQL_Latin1_General_CP1_CI_AI LIKE @Keyword");
             parameters.Add("Keyword", $"%{request.Keyword.Trim()}%", DbType.String);
         }
@@ -156,9 +156,11 @@ public class DriverRepository : IDriverRepository
             ORDER BY e.CreatedDate ASC
             OFFSET @Skip ROWS FETCH NEXT @Take ROWS ONLY;";
 
-        //Bắn 1 request duy nhất mang theo cả 2 câu SQL xuống Database.
-        //Tối ưu hóa hiệu năng, tránh 2 lần round-trip.
-        //QueryMultipleAsync trả về một GridReader để đọc nhiều result set.
+        /// <summary>
+        /// Bắn 1 request duy nhất mang theo cả 2 câu SQL xuống Database.
+        /// Tối ưu hóa hiệu năng, tránh 2 lần round-trip.
+        /// QueryMultipleAsync trả về một GridReader để đọc nhiều result set.
+        /// </summary>
         using var multi = await _db.QueryMultipleAsync(sql, parameters);
         var totalRecord = await multi.ReadFirstAsync<int>();
         var items = await multi.ReadAsync<DriverDto>();
@@ -197,11 +199,14 @@ public class DriverRepository : IDriverRepository
               AND FK_CompanyID  = @CompanyId
               AND IsDeleted     = 0;";
 
-        // Đảm bảo connection được mở trước khi tạo transaction
+        /// Đảm bảo connection được mở trước khi tạo transaction
         if (_db.State != ConnectionState.Open)
             _db.Open();
 
-        // sử dung transaction để đảm bảo tất cả các bản ghi được cập nhật thành công hoặc rollback nếu có lỗi
+
+        /// <summary>
+        /// sử dung transaction để đảm bảo tất cả các bản ghi được cập nhật thành công hoặc rollback nếu có lỗi
+        /// </summary>
         using var transaction = _db.BeginTransaction();
         try
         {

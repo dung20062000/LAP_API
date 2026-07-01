@@ -12,21 +12,33 @@ namespace LAP_API.Services;
 /// </Modified>
 public interface IDriverService
 {
-    /// <summary>Lấy danh sách dropdown lái xe.</summary>
+    /// <summary>
+    /// Lấy danh sách dropdown lái xe.
+    /// </summary>
     Task<IEnumerable<DriverLookupDto>> GetLookupAsync();
 
-    /// <summary>Lấy danh sách dropdown loại bằng lái.</summary>
+    /// <summary>
+    /// Lấy danh sách dropdown loại bằng lái.
+    /// </summary>
     Task<IEnumerable<LicenseTypeLookupDto>> GetLicenseTypeLookupAsync();
 
-    /// <summary>Lấy danh sách lái xe có phân trang.</summary>
+    /// <summary>
+    /// Lấy danh sách lái xe có phân trang.
+    /// </summary>
     Task<DriverListResponse> GetListAsync(DriverListRequest request);
 
-    /// <summary>Cập nhật hàng loạt thông tin lái xe.</summary>
+    /// <summary>
+    /// Cập nhật hàng loạt thông tin lái xe.
+    /// </summary>
     Task<bool> BatchUpdateAsync(List<UpdateDriverRequest> items);
 
-    /// <summary>Xóa mềm lái xe theo ID.</summary>
+    /// <summary>
+    /// Xóa mềm lái xe theo ID.
+    /// </summary>
     Task<(bool Success, string? ErrorMessage)> SoftDeleteAsync(int id);
 
-    /// <summary>Xuất danh sách lái xe ra file Excel.</summary>
+    /// <summary>
+    /// Xuất danh sách lái xe ra file Excel.
+    /// </summary>
     Task<FileStreamResult> ExportExcelAsync(DriverExportRequest request);
 }
