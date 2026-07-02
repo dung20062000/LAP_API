@@ -105,10 +105,18 @@ public class DriverService : BaseService, IDriverService
     /// </Modified>
     public async Task<bool> BatchUpdateAsync(List<UpdateDriverRequest> items)
     {
-        if (items.Count == 0)
-            return true;
+        try
+        {
+            if (items.Count == 0)
+                return true;
 
-        return await _driverRepo.BatchUpdateAsync(items);
+            return await _driverRepo.BatchUpdateAsync(items);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Có lỗi khi cập nhật thông tin lái xe.");
+            return false;
+        }
     }
 
 
@@ -123,14 +131,22 @@ public class DriverService : BaseService, IDriverService
     /// </Modified>
     public async Task<(bool Success, string? ErrorMessage)> SoftDeleteAsync(int id)
     {
-        if (id <= 0)
-            return (false, "ID lái xe không hợp lệ");
+        try
+        {
+            if (id <= 0)
+                return (false, "ID lái xe không hợp lệ");
 
-        var success = await _driverRepo.SoftDeleteAsync(id);
-        if (!success)
-            return (false, "Không tìm thấy lái xe hoặc không có quyền xóa");
+            var success = await _driverRepo.SoftDeleteAsync(id);
+            if (!success)
+                return (false, "Không tìm thấy lái xe hoặc không có quyền xóa");
 
-        return (true, null);
+            return (true, null);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Có lỗi khi xóa lái xe có ID: {Id}", id);
+            return (false, "Có lỗi khi xóa dữ liệu. Vui lòng thử lại sau.");
+        }
     }
 
 
