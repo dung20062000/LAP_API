@@ -46,4 +46,9 @@ public interface IDriverService
     /// Lấy thông tin chi tiết lái xe theo ID.
     /// </summary>
     Task<DriverDto?> GetByIdAsync(int id);
+
+    /// <summary>
+    /// Tạo mới lái xe.
+    /// </summary>
+    Task<bool> CreateAsync(UpdateDriverRequest item);
 }

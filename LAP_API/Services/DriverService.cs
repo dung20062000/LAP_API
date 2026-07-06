@@ -332,4 +332,26 @@ public class DriverService : BaseService, IDriverService
     {
         return await _driverRepo.GetByIdAsync(id);
     }
+
+    /// <summary>
+    /// Tạo mới lái xe.
+    /// </summary>
+    /// <param name="item"></param>
+    /// <returns></returns>
+    /// <Modified>
+    /// Name Date Comments
+    /// dungbt 7/6/2026 created
+    /// </Modified>
+    public async Task<bool> CreateAsync(UpdateDriverRequest item)
+    {
+        try
+        {
+            return await _driverRepo.CreateAsync(item);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Có lỗi khi tạo lái xe mới.");
+            return false;
+        }
+    }
 }

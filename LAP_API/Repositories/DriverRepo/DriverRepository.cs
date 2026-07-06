@@ -373,4 +373,56 @@ public class DriverRepository : IDriverRepository
 
         return await _db.QueryFirstOrDefaultAsync<DriverDto>(sql, parameters);
     }
+
+    /// <summary>
+    /// Tạo mới lái xe.
+    /// </summary>
+    /// <param name="item">Dữ liệu lái xe.</param>
+    /// <returns>true nếu tạo thành công.</returns>
+    /// <Modified>
+    /// Name Date Comments
+    /// dungbt 7/6/2026 created
+    /// </Modified>
+    public async Task<bool> CreateAsync(UpdateDriverRequest item)
+    {
+        const string sql = @"
+            INSERT INTO [HRM.Employees] (
+                FK_CompanyID,
+                DisplayName,
+                DriverLicense,
+                IssueLicenseDate,
+                ExpireLicenseDate,
+                IssueLicensePlace,
+                LicenseType,
+                Mobile,
+                CreatedDate,
+                IsDeleted,
+                IsLocked
+            ) VALUES (
+                @CompanyId,
+                @DisplayName,
+                @DriverLicense,
+                @IssueLicenseDate,
+                @ExpireLicenseDate,
+                @IssueLicensePlace,
+                @LicenseType,
+                @Mobile,
+                GETDATE(),
+                0,
+                0
+            );";
+
+        var parameters = new DynamicParameters();
+        parameters.Add("CompanyId", CompanyId, DbType.Int32);
+        parameters.Add("DisplayName", item.DisplayName, DbType.String);
+        parameters.Add("DriverLicense", item.DriverLicense, DbType.String);
+        parameters.Add("IssueLicenseDate", item.IssueLicenseDate, DbType.DateTime);
+        parameters.Add("ExpireLicenseDate", item.ExpireLicenseDate, DbType.DateTime);
+        parameters.Add("IssueLicensePlace", item.IssueLicensePlace, DbType.String);
+        parameters.Add("LicenseType", item.LicenseType, DbType.Int32);
+        parameters.Add("Mobile", item.Mobile, DbType.String);
+
+        var rowsAffected = await _db.ExecuteAsync(sql, parameters);
+        return rowsAffected > 0;
+    }
 }
