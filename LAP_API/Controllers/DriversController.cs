@@ -213,4 +213,23 @@ public class DriversController : BaseApiController
         var fileResult = await _driverService.ExportExcelAsync(request);
         return fileResult;
     }
+
+    /// <summary>
+    /// Lấy thông tin chi tiết lái xe theo ID.
+    /// </summary>
+    /// <param name="id">ID của lái xe cần lấy.</param>
+    /// <returns>Thông tin lái xe (DriverDto).</returns>
+    /// <Modified>
+    /// Name       Date        Comments
+    /// dungbt     6/26/2026   created
+    /// </Modified>
+    [HttpGet("{id:int}")]
+    public async Task<IActionResult> GetById(int id)
+    {
+        var result = await _driverService.GetByIdAsync(id);
+        if (result == null)
+            return FailResponse("Không tìm thấy lái xe", 404);
+
+        return OkResponse(result);
+    }
 }

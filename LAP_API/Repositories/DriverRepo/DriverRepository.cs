@@ -332,4 +332,45 @@ public class DriverRepository : IDriverRepository
 
         return await _db.QueryAsync<DriverDto>(sql, parameters);
     }
+
+    /// <summary>
+    /// Lấy thông tin chi tiết lái xe theo ID.
+    /// </summary>
+    /// <param name="id">ID của lái xe.</param>
+    /// <returns>DriverDto hoặc null nếu không tìm thấy.</returns>
+    /// <Modified>
+    /// Name Date Comments
+    /// dungbt 6/26/2026 created
+    /// </Modified>
+    public async Task<DriverDto?> GetByIdAsync(int id)
+    {
+        var parameters = new DynamicParameters();
+        parameters.Add("Id", id, DbType.Int32);
+        parameters.Add("CompanyId", CompanyId, DbType.Int32);
+
+        var sql = @"
+            SELECT
+                e.PK_EmployeeID  AS Id,
+                e.EmployeeCode,
+                e.Name,
+                e.DisplayName,
+                e.Mobile,
+                e.DriverLicense,
+                e.IssueLicenseDate,
+                e.ExpireLicenseDate,
+                e.IssueLicensePlace,
+                e.LicenseType,
+                lt.Name          AS LicenseTypeName,
+                ISNULL(e.UpdatedDate, e.CreatedDate) AS UpdatedDate
+            FROM [HRM.Employees] e
+            LEFT JOIN [BCA.LicenseTypes] lt
+                ON lt.PK_LicenseTypeID = e.LicenseType
+               AND lt.IsActived = 1
+               AND lt.IsDeteted = 0
+            WHERE e.PK_EmployeeID = @Id
+              AND e.FK_CompanyID = @CompanyId
+              AND e.IsDeleted = 0;";
+
+        return await _db.QueryFirstOrDefaultAsync<DriverDto>(sql, parameters);
+    }
 }
