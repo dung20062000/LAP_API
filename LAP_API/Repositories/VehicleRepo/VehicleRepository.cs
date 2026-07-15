@@ -15,7 +15,9 @@ namespace LAP_API.Repositories.VehicleRepo;
 /// <seealso cref="LAP_API.Repositories.VehicleRepo.IVehicleRepository" />
 public class VehicleRepository : GenericRepository<Vehicle>, IVehicleRepository
 {
-    // Tạm thời fix cứng CompanyId cho phiên bản hiện tại
+    /// <summary>
+    /// Tạm thời fix cứng CompanyId cho phiên bản hiện tại
+    /// </summary>
     private const int CompanyId = 15076;
 
     public VehicleRepository(ApplicationDbContext context) : base(context)
@@ -40,13 +42,13 @@ public class VehicleRepository : GenericRepository<Vehicle>, IVehicleRepository
         {
             var list = groupIds.ToList();
 
-            // 1. Early Exit: Tránh gọi Database nếu danh sách ID rỗng
+            /// 1. Early Exit: Tránh gọi Database nếu danh sách ID rỗng
             if (!list.Any())
             {
                 return Enumerable.Empty<Vehicle>();
             }
 
-            // 1 Sub-query
+            /// 1 Sub-query
             var vehicleIdsInGroup = _context.VehicleGroups
                 .Where(vg => list.Contains(vg.GroupId) && vg.IsDeleted != true && vg.CompanyId == CompanyId)
                 .Select(vg => vg.VehicleId);

@@ -19,7 +19,9 @@ public class DriverRepository : IDriverRepository
 {
     private readonly IDbConnection _db;
 
-    // Tạm thời fix cứng CompanyId cho phiên bản hiện tại
+    /// <summary>
+    /// Tạm thời fix cứng CompanyId cho phiên bản hiện tại
+    /// </summary>
     private const int CompanyId = 15076;
 
     public DriverRepository(IDbConnection db)

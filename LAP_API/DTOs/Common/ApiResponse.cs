@@ -8,11 +8,15 @@ namespace LAP_API.DTOs.Common;
 /// </summary>
 public class ApiResponse
 {
-    /// <summary>Cho biết yêu cầu có thành công hay không.</summary>
+    /// <summary>
+    /// Cho biết yêu cầu có thành công hay không.
+    /// </summary>
     [JsonPropertyName("success")]
     public bool Success { get; set; }
 
-    /// <summary>Thông điệp mô tả kết quả.</summary>
+    /// <summary>
+    /// Thông điệp mô tả kết quả.
+    /// </summary>
     [JsonPropertyName("message")]
     public string Message { get; set; } = string.Empty;
 
@@ -67,15 +71,21 @@ public class ApiResponse
 /// <typeparam name="T">Loại dữ liệu payload.</typeparam>
 public class ApiResponse<T>
 {
-    /// <summary>Cho biết yêu cầu có thành công hay không.</summary>
+    /// <summary>
+    /// Cho biết yêu cầu có thành công hay không.
+    /// </summary>
     [JsonPropertyName("success")]
     public bool Success { get; set; }
 
-    /// <summary>Thông điệp mô tả kết quả.</summary>
+    /// <summary>
+    /// Thông điệp mô tả kết quả.
+    /// </summary>
     [JsonPropertyName("message")]
     public string Message { get; set; } = string.Empty;
 
-    /// <summary>Dữ liệu payload có kiểu. Chỉ được đưa vào khi không null.</summary>
+    /// <summary>
+    /// Dữ liệu payload có kiểu. Chỉ được đưa vào khi không null
+    /// </summary>
     [JsonPropertyName("data")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public T? Data { get; set; }

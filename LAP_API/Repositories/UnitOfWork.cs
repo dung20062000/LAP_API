@@ -24,12 +24,17 @@ public class UnitOfWork : IUnitOfWork
         UserVehicleGroups = new UserVehicleGroupRepository(context);
     }
 
+    /// <summary>
     /// Các repository được quản lý bởi UnitOfWork.
+    /// </summary>
     public IVehicleRepository Vehicles { get; }
     public IGroupRepository Groups { get; }
     public IUserVehicleGroupRepository UserVehicleGroups { get; }
 
+    /// <summary>
     /// Lưu tất cả các thay đổi vào cơ sở dữ liệu.
+    /// </summary>
+    /// <returns></returns>
     public Task<int> SaveChangesAsync()
         => _context.SaveChangesAsync();
 

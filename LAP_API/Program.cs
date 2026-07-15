@@ -13,29 +13,43 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Database
+/// <summary>
+///  Database
+/// </summary>
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// HTTP Client Factory
+/// <summary>
+///  HTTP Client Factory
+/// </summary>
 builder.Services.AddHttpClient();
 
-// Dapper IDbConnection — dùng SqlConnection (Scoped, mỗi request một instance)
+/// <summary>
+/// Dapper IDbConnection — dùng SqlConnection (Scoped, mỗi request một instance)
+/// </summary>
 builder.Services.AddScoped<IDbConnection>(_ =>
     new SqlConnection(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Repository (EF Core — UnitOfWork)
+/// <summary>
+///  Repository (EF Core — UnitOfWork)
+/// </summary>
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-// Repository (Dapper — Driver)
+/// <summary>
+///  Repository (Dapper — Driver)
+/// </summary>
 builder.Services.AddScoped<IDriverRepository, DriverRepository>();
 
-// Services
+/// <summary>
+/// Services
+/// </summary>
 builder.Services.AddScoped<IVehicleService, VehicleService>();
 builder.Services.AddScoped<IUserVehicleGroupService, UserVehicleGroupService>();
 builder.Services.AddScoped<IDriverService, DriverService>();
 
-// Controllers
+/// <summary>
+/// Controllers
+/// </summary>
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
@@ -45,7 +59,7 @@ builder.Services.AddControllers()
     })
     .ConfigureApiBehaviorOptions(options =>
     {
-        // cấu hình phản hồi khi dữ liệu đầu vào không hợp lệ (ModelState invalid)
+        /// cấu hình phản hồi khi dữ liệu đầu vào không hợp lệ (ModelState invalid)
         options.InvalidModelStateResponseFactory = context =>
         {
             var errors = new Dictionary<string, string[]>();
@@ -73,7 +87,9 @@ builder.Services.AddControllers()
         };
     });
 
-// Swagger
+/// <summary>
+/// Swagger
+/// </summary>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
@@ -85,7 +101,9 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
-// CORS
+/// <summary>
+///  CORS
+/// </summary>
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>

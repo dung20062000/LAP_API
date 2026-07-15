@@ -12,10 +12,14 @@ namespace LAP_API.Services;
 /// </summary>
 public abstract class BaseService
 {
-    /// <summary>Instance Unit of Work cho thao tác truy cập dữ liệu.</summary>
+    /// <summary>
+    /// Instance Unit of Work cho thao tác truy cập dữ liệu.
+    /// </summary>
     protected readonly IUnitOfWork _unitOfWork;
 
-    /// <summary>Instance logger cho việc ghi log có cấu trúc.</summary>
+    /// <summary>
+    /// Instance logger cho việc ghi log có cấu trúc.
+    /// </summary>
     protected readonly ILogger _logger;
 
     /// <summary>

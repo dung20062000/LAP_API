@@ -19,7 +19,6 @@ namespace LAP_API.Controllers;
 [ApiController]
 public class VehiclesController : BaseApiController
 {
-    /// Instance vehicle service
     private readonly IVehicleService _vehicleService;
 
     /// <summary>

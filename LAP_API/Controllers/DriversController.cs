@@ -19,7 +19,9 @@ namespace LAP_API.Controllers;
 [ApiController]
 public class DriversController : BaseApiController
 {
+    /// <summary>
     /// Instance driver service
+    /// </summary>
     private readonly IDriverService _driverService;
 
     /// <summary>

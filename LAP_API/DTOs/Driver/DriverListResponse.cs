@@ -9,9 +9,13 @@ namespace LAP_API.DTOs.Driver;
 /// </Modified>
 public class DriverListResponse
 {
+    /// <summary>
     /// Tổng số bản ghi thỏa điều kiện lọc
+    /// </summary>
     public int TotalRecord { get; set; }
 
+    /// <summary>
     /// Danh sách dữ liệu trang hiện tại
+    /// </summary>
     public IEnumerable<DriverDto> Items { get; set; } = Enumerable.Empty<DriverDto>();
 }

@@ -12,19 +12,27 @@ namespace LAP_API.DTOs.Vehicle;
 /// </Modified>
 public class VehicleGroupTreeDto
 {
+    /// <summary>
     /// ID của nhóm dưới dạng chuỗi.
+    /// </summary>
     [JsonPropertyName("key")]
     public string Key { get; set; } = string.Empty;
 
-    /// Nhãn hiển thị trên cây (bao gồm tên nhóm và số lượng xe).
+    /// <summary>
+    ///  Nhãn hiển thị trên cây (bao gồm tên nhóm và số lượng xe).
+    /// </summary>
     [JsonPropertyName("label")]
     public string Label { get; set; } = string.Empty;
 
+    /// <summary>
     /// Dữ liệu bổ sung đi kèm (thường là ID nhóm).
+    /// </summary>
     [JsonPropertyName("data")]
     public string Data { get; set; } = string.Empty;
 
+    /// <summary>
     /// Danh sách các nhóm con.
+    /// </summary>
     [JsonPropertyName("children")]
     public List<VehicleGroupTreeDto> Children { get; set; } = new();
 }

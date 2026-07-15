@@ -10,9 +10,13 @@ namespace LAP_API.DTOs.Driver;
 /// </Modified>
 public class DriverLookupDto
 {
+    /// <summary>
     /// Mã định danh của nhân viên (lái xe)
+    /// </summary>
     public int Value { get; set; }
 
+    /// <summary>
     /// Nhãn hiển thị trên dropdown: DisplayName - DriverLicense
+    /// </summary>
     public string Label { get; set; } = string.Empty;
 }

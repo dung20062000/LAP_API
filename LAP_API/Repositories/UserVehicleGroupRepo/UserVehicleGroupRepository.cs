@@ -14,7 +14,9 @@ namespace LAP_API.Repositories.UserVehicleGroupRepo;
 /// </Modified>
 public class UserVehicleGroupRepository : GenericRepository<UserVehicleGroup>, IUserVehicleGroupRepository
 {
-    // Fix cứng CompanyId vì hiện tại chỉ phục vụ 1 công ty
+    /// <summary>
+    /// Fix cứng CompanyId vì hiện tại chỉ phục vụ 1 công ty
+    /// </summary>
     private const int CompanyId = 15076;
 
     public UserVehicleGroupRepository(ApplicationDbContext context) : base(context)
@@ -94,16 +96,16 @@ public class UserVehicleGroupRepository : GenericRepository<UserVehicleGroup>, I
         {
             var now = DateTime.Now;
 
-            // Lấy tất cả bản ghi hiện tại của user (kể cả đã xóa mềm)
+            /// Lấy tất cả bản ghi hiện tại của user (kể cả đã xóa mềm)
             var existing = await _context.UserVehicleGroups
                 .Where(uvg => uvg.UserId == userId)
                 .ToListAsync();
 
-            // dùng GroupBy + ToDictionary để tránh lỗi duplicate key nếu có nhiều bản ghi cùng VehicleGroupId (do xóa mềm) -> crash trương trình
+            /// dùng GroupBy + ToDictionary để tránh lỗi duplicate key nếu có nhiều bản ghi cùng VehicleGroupId (do xóa mềm) -> crash trương trình
             var existingDict = existing.GroupBy(uvg => uvg.VehicleGroupId).ToDictionary(g => g.Key, g => g.First());
             var groupDict = groups.ToDictionary(g => g.Id);
 
-            // Soft-delete các nhóm không còn trong danh sách mới
+            /// Soft-delete các nhóm không còn trong danh sách mới
             var toRemove = existing
                 .Where(uvg => uvg.IsDeleted != true && !groupIds.Contains(uvg.VehicleGroupId))
                 .ToList();
@@ -114,12 +116,12 @@ public class UserVehicleGroupRepository : GenericRepository<UserVehicleGroup>, I
                 uvg.UpdatedDate = now;
             }
 
-            // Thêm mới hoặc khôi phục các nhóm trong danh sách mới
+            /// Thêm mới hoặc khôi phục các nhóm trong danh sách mới
             foreach (var groupId in groupIds)
             {
                 if (existingDict.TryGetValue(groupId, out var existingRecord))
                 {
-                    // Khôi phục nếu đang bị xóa mềm
+                    /// Khôi phục nếu đang bị xóa mềm
                     if (existingRecord.IsDeleted == true)
                     {
                         existingRecord.IsDeleted = false;
@@ -131,7 +133,7 @@ public class UserVehicleGroupRepository : GenericRepository<UserVehicleGroup>, I
                 }
                 else
                 {
-                    // Thêm mới
+                    /// Thêm mới
                     var parentId = groupDict.TryGetValue(groupId, out var grp)
                         ? grp.ParentVehicleGroupID
                         : null;

@@ -18,7 +18,9 @@ namespace LAP_API.Controllers;
 [ApiController]
 public class UserVehicleGroupController : BaseApiController
 {
+    /// <summary>
     /// Instance service gán nhóm xe
+    /// </summary>
     private readonly IUserVehicleGroupService _userVehicleGroupService;
 
     /// <summary>

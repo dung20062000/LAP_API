@@ -12,7 +12,9 @@ namespace LAP_API.DTOs.UserVehicleGroup;
 /// </Modified>
 public class AssignGroupsRequest
 {
+    /// <summary>
     /// Danh sách ID nhóm xe cần gán (danh sách ID đang được gán sau khi người dùng thao tác).
+    /// </summary>
     [Required]
     [JsonPropertyName("groupIds")]
     public List<int> GroupIds { get; set; } = new();

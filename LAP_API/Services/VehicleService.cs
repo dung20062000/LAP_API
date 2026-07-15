@@ -18,9 +18,13 @@ namespace LAP_API.Services;
 public class VehicleService : BaseService, IVehicleService
 {
     private readonly IHttpClientFactory _httpClientFactory;
-    // Tạm thời fix cứng CompanyId cho phiên bản hiện tại
+    /// <summary>
+    /// Tạm thời fix cứng CompanyId cho phiên bản hiện tại
+    /// </summary>
     private const int CompanyId = 15076;
-    // Giới hạn tối đa số ngày có thể tìm kiếm ảnh để tránh tải quá nhiều dữ liệu từ hệ thống bên thứ 3
+    /// <summary>
+    /// Giới hạn tối đa số ngày có thể tìm kiếm ảnh để tránh tải quá nhiều dữ liệu từ hệ thống bên thứ 3
+    /// </summary>
     private const int MaxImageSearchDays = 30;
 
     public VehicleService(
@@ -162,7 +166,7 @@ public class VehicleService : BaseService, IVehicleService
     public async Task<(ImageSearchResponse? response, string? error)> SearchImagesAsync(
         ImageSearchRequest request)
     {
-        // Validation
+        /// Validation
         if (request.StartTime > request.EndTime)
             return (null, "Giờ bắt đầu không được lớn hơn giờ kết thúc");
 
@@ -208,7 +212,7 @@ public class VehicleService : BaseService, IVehicleService
                 return (null, "Không thể lấy dữ liệu ảnh từ hệ thống");
             }
 
-            // ReadFromJsonAsync sẽ tự động parse JSON thành object, nếu format JSON khác thì sẽ trả về null
+            /// ReadFromJsonAsync sẽ tự động parse JSON thành object, nếu format JSON khác thì sẽ trả về null
             var jsonString = await response.Content.ReadAsStringAsync();
             var externalItems = new List<ExternalImageItem>();
 
@@ -216,10 +220,10 @@ public class VehicleService : BaseService, IVehicleService
             {
                 var trimmedJson = jsonString.TrimStart();
 
-                // KIỂM TRA ĐỊNH DẠNG JSON
+                /// KIỂM TRA ĐỊNH DẠNG JSON
                 if (trimmedJson.StartsWith("{"))
                 {
-                    // Nếu là Object
+                    /// Nếu là Object
                     var apiResponse = JsonSerializer.Deserialize<ExternalImageApiResponse>(jsonString, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
                     externalItems = apiResponse?.GetItems() ?? [];
                 }

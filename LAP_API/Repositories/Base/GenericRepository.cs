@@ -27,30 +27,34 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         _dbSet = context.Set<T>();
     }
 
-    /// <inheritdoc />
+    /// <summary>
     /// dùng để lấy một thực thể theo ID. Trả về null nếu không tìm thấy.
+    /// </summary>
     public virtual async Task<T?> GetByIdAsync(int id)
     {
         return await _dbSet.FindAsync(id);
     }
 
-    /// <inheritdoc />
+    /// <summary>
     /// dùng để lấy tất cả thực thể. Trả về một danh sách rỗng nếu không có thực thể nào.
+    /// </summary>
     public virtual async Task<IEnumerable<T>> GetAllAsync()
     {
         return await _dbSet.AsNoTracking().ToListAsync();
     }
 
-    /// <inheritdoc />
-    /// dùng để tìm kiếm thực thể theo một điều kiện cụ thể. Trả về một danh sách rỗng nếu không có thực thể nào
+    /// <summary>
+    /// dùng để tìm kiếm thực thể theo một điều kiện cụ thể. Trả về một danh sách rỗng nếu không có thực thể nào 
+    /// </summary>
     public Task<IEnumerable<T>> FindAsync(Func<T, bool> predicate)
     {
         return Task.FromResult(
             _dbSet.AsNoTracking().Where(predicate).AsEnumerable());
     }
 
-    /// <inheritdoc />
+    /// <summary>
     /// dùng để thêm một thực thể mới vào database. Trả về thực thể đã được thêm vào database, bao gồm ID nếu có.
+    /// </summary>
     public virtual async Task<T> AddAsync(T entity)
     {
         await _dbSet.AddAsync(entity);
@@ -58,16 +62,18 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         return entity;
     }
 
-    /// <inheritdoc />
+    /// <summary>
     /// dùng để cập nhật một thực thể đã tồn tại trong database. Trả về void.
+    /// </summary>
     public virtual async Task UpdateAsync(T entity)
     {
         _dbSet.Update(entity);
         await _context.SaveChangesAsync();
     }
 
-    /// <inheritdoc />
+    /// <summary>
     /// dùng để xóa một thực thể khỏi database dựa trên ID. Trả về void.
+    /// </summary>
     public virtual async Task DeleteAsync(int id)
     {
         var entity = await GetByIdAsync(id);
@@ -78,8 +84,9 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         }
     }
 
-    /// <inheritdoc />
-    /// dùng để đếm tổng số thực thể trong database. Trả về số lượng thực thể.
+    /// <summary>
+    /// dùng để đếm tổng số thực thể trong database. Trả về số lượng thực thể
+    /// </summary>
     public async Task<int> CountAsync()
     {
         return await _dbSet.AsNoTracking().CountAsync();
