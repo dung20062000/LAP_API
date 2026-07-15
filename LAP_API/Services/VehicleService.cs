@@ -241,7 +241,7 @@ public class VehicleService : BaseService, IVehicleService
 
             return (new ImageSearchResponse
             {
-                TotalCount = items.Count(),
+                TotalCount = items.Count,
                 Items = sorted.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList(),
             }, null);
         }
