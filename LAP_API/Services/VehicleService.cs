@@ -217,18 +217,11 @@ public class VehicleService : BaseService, IVehicleService
                 var trimmedJson = jsonString.TrimStart();
 
                 // KIỂM TRA ĐỊNH DẠNG JSON
-                if (trimmedJson.StartsWith("["))
-                {
-                    // Nếu là Mảng
-                    //PropertyNameCaseInsensitive true để không phân biệt chữ hoa chữ thường khi ánh xạ tên property
-                    externalItems = JsonSerializer.Deserialize<List<ExternalImageItem>>(jsonString, new JsonSerializerOptions { PropertyNameCaseInsensitive = true })
-                                    ?? new List<ExternalImageItem>();
-                }
-                else if (trimmedJson.StartsWith("{"))
+                if (trimmedJson.StartsWith("{"))
                 {
                     // Nếu là Object
                     var apiResponse = JsonSerializer.Deserialize<ExternalImageApiResponse>(jsonString, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-                    externalItems = apiResponse?.GetItems() ?? new List<ExternalImageItem>();
+                    externalItems = apiResponse?.GetItems() ?? [];
                 }
             }
 
