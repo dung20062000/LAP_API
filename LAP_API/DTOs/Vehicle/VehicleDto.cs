@@ -17,11 +17,15 @@ public class VehicleDto
     [JsonPropertyName("vehiclePlate")]
     public string VehiclePlate { get; set; } = string.Empty;
 
+    /// <summary>
     /// Mã xí nghiệp.
+    /// </summary>
     [JsonPropertyName("XNCode")]
     public int XNCode { get; set; }
 
+    /// <summary>
     /// Tên hiển thị 
+    /// </summary>
     [JsonPropertyName("displayName")]
     public string DisplayName { get; set; } = string.Empty;
 

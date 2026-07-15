@@ -15,7 +15,9 @@ namespace LAP_API.Repositories.VehicleRepo;
 /// <seealso cref="LAP_API.Repositories.VehicleRepo.IGroupRepository" />
 public class GroupRepository : GenericRepository<Group>, IGroupRepository
 {
-    // fix cứng CompanyId vì hiện tại chỉ có 1 công ty, sau này nếu có nhiều công ty thì sẽ cần thay đổi
+    /// <summary>
+    /// fix cứng CompanyId vì hiện tại chỉ có 1 công ty, sau này nếu có nhiều công ty thì sẽ cần thay đổi
+    /// </summary>
     private const int CompanyId = 15076;
 
     public GroupRepository(ApplicationDbContext context) : base(context)
@@ -67,10 +69,10 @@ public class GroupRepository : GenericRepository<Group>, IGroupRepository
             var list = groupIds.ToList();
             var result = await _context.VehicleGroups
                 .AsNoTracking()
-                // Lọc VehicleGroups theo danh sách ID và CompanyId
+                /// Lọc VehicleGroups theo danh sách ID và CompanyId
                 .Where(vg => list.Contains(vg.GroupId) && vg.IsDeleted != true && vg.CompanyId == CompanyId)
                 .Join(
-                    // Chỉ join với các xe đang hoạt động
+                    /// Chỉ join với các xe đang hoạt động
                     _context.Vehicles.Where(v =>
                         !v.IsLocked && v.IsDeleted != true && v.CompanyId == CompanyId),
                     vg => vg.VehicleId,
