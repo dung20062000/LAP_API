@@ -321,4 +321,40 @@ public class DriverService : BaseService, IDriverService
         cell.Style.Border.Left.Style = ExcelBorderStyle.Thin;
         cell.Style.Border.Right.Style = ExcelBorderStyle.Thin;
     }
+
+    /// <summary>
+    /// Lấy thông tin chi tiết lái xe theo ID.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    /// <Modified>
+    /// Name Date Comments
+    /// dungbt 6/26/2026 created
+    /// </Modified>
+    public async Task<DriverDto?> GetByIdAsync(int id)
+    {
+        return await _driverRepo.GetByIdAsync(id);
+    }
+
+    /// <summary>
+    /// Tạo mới lái xe.
+    /// </summary>
+    /// <param name="item"></param>
+    /// <returns></returns>
+    /// <Modified>
+    /// Name Date Comments
+    /// dungbt 7/6/2026 created
+    /// </Modified>
+    public async Task<bool> CreateAsync(UpdateDriverRequest item)
+    {
+        try
+        {
+            return await _driverRepo.CreateAsync(item);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Có lỗi khi tạo lái xe mới.");
+            return false;
+        }
+    }
 }

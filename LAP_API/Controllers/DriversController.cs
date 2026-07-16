@@ -215,4 +215,81 @@ public class DriversController : BaseApiController
         var fileResult = await _driverService.ExportExcelAsync(request);
         return fileResult;
     }
+
+    /// <summary>
+    /// Lấy thông tin chi tiết lái xe theo ID.
+    /// </summary>
+    /// <param name="id">ID của lái xe cần lấy.</param>
+    /// <returns>Thông tin lái xe (DriverDto).</returns>
+    /// <Modified>
+    /// Name       Date        Comments
+    /// dungbt     6/26/2026   created
+    /// </Modified>
+    [HttpGet("{id:int}")]
+    public async Task<IActionResult> GetById(int id)
+    {
+        var result = await _driverService.GetByIdAsync(id);
+        if (result == null)
+            return FailResponse("Không tìm thấy lái xe", 404);
+
+        return OkResponse(result);
+    }
+
+    /// <summary>
+    /// tạo mới lái xe. Nhận dữ liệu từ request body và validate trước khi tạo.
+    /// </summary>
+    /// <param name="request"> Dữ liệu lái xe cần tạo mới.</param>
+    /// <returns> 200 OK nếu tạo thành công, 400 nếu dữ liệu rỗng hoặc không hợp lệ.</returns>
+    /// <Modified>
+    /// Name    Date        Comments
+    /// dungbt  7/6/2026    created
+    /// </Modified>
+    [HttpPost]
+    public async Task<IActionResult> Create([FromBody] UpdateDriverRequest request)
+    {
+        if (request == null)
+            return FailResponse("Dữ liệu tạo mới không được rỗng");
+
+        var validationErrors = ValidateItem(request);
+        if (validationErrors.Count > 0)
+            return FailResponse<DriverDto>("Dữ liệu tạo mới không hợp lệ", validationErrors);
+
+        var success = await _driverService.CreateAsync(request);
+        if (!success)
+            return FailResponse("Có lỗi khi tạo mới lái xe");
+
+        return OkResponse("Tạo lái xe thành công");
+    }
+
+    /// <summary>
+    /// Validates dữ liệu tạo mới lái xe.
+    /// </summary>
+    /// <param name="item">Dữ liệu lái xe cần tạo.</param>
+    /// <returns>trả về Dictionary với key là tên thuộc tính và value là mảng lỗi tương ứng.</returns>
+    /// <Modified>
+    /// Name Date Comments
+    /// dungbt 7/6/2026 created
+    /// </Modified>
+    private static Dictionary<string, string[]> ValidateItem(UpdateDriverRequest item)
+    {
+        var errors = new Dictionary<string, List<string>>();
+        var validationResults = new List<ValidationResult>();
+        var context = new ValidationContext(item);
+        Validator.TryValidateObject(item, context, validationResults, true);
+
+        foreach (var validationResult in validationResults)
+        {
+            var memberNames = validationResult.MemberNames?.Any() == true
+                ? validationResult.MemberNames
+                : new[] { string.Empty };
+
+            foreach (var memberName in memberNames)
+            {
+                var key = string.IsNullOrWhiteSpace(memberName) ? "request" : memberName;
+                AddError(errors, key, validationResult.ErrorMessage ?? "Dữ liệu không hợp lệ.");
+            }
+        }
+
+        return errors.ToDictionary(pair => pair.Key, pair => pair.Value.Distinct().ToArray());
+    }
 }

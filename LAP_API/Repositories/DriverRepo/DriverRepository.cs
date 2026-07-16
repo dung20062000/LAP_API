@@ -3,6 +3,8 @@ using LAP_API.Common.Enums;
 using LAP_API.DTOs.Driver;
 using Microsoft.AspNetCore.Hosting.Server;
 using System.Data;
+using System.Globalization;
+using System.Text;
 
 namespace LAP_API.Repositories.DriverRepo;
 
@@ -333,5 +335,146 @@ public class DriverRepository : IDriverRepository
             ORDER BY e.CreatedDate ASC;";
 
         return await _db.QueryAsync<DriverDto>(sql, parameters);
+    }
+
+    /// <summary>
+    /// Lấy thông tin chi tiết lái xe theo ID.
+    /// </summary>
+    /// <param name="id">ID của lái xe.</param>
+    /// <returns>DriverDto hoặc null nếu không tìm thấy.</returns>
+    /// <Modified>
+    /// Name Date Comments
+    /// dungbt 6/26/2026 created
+    /// </Modified>
+    public async Task<DriverDto?> GetByIdAsync(int id)
+    {
+        var parameters = new DynamicParameters();
+        parameters.Add("Id", id, DbType.Int32);
+        parameters.Add("CompanyId", CompanyId, DbType.Int32);
+
+        var sql = @"
+            SELECT
+                e.PK_EmployeeID  AS Id,
+                e.EmployeeCode,
+                e.Name,
+                e.DisplayName,
+                e.Mobile,
+                e.DriverLicense,
+                e.IssueLicenseDate,
+                e.ExpireLicenseDate,
+                e.IssueLicensePlace,
+                e.LicenseType,
+                lt.Name          AS LicenseTypeName,
+                ISNULL(e.UpdatedDate, e.CreatedDate) AS UpdatedDate
+            FROM [HRM.Employees] e
+            LEFT JOIN [BCA.LicenseTypes] lt
+                ON lt.PK_LicenseTypeID = e.LicenseType
+               AND lt.IsActived = 1
+               AND lt.IsDeteted = 0
+            WHERE e.PK_EmployeeID = @Id
+              AND e.FK_CompanyID = @CompanyId
+              AND e.IsDeleted = 0;";
+
+        return await _db.QueryFirstOrDefaultAsync<DriverDto>(sql, parameters);
+    }
+
+    /// <summary>
+    /// Tạo mới lái xe.
+    /// </summary>
+    /// <param name="item">Dữ liệu lái xe.</param>
+    /// <returns>true nếu tạo thành công.</returns>
+    /// <Modified>
+    /// Name Date Comments
+    /// dungbt 7/6/2026 created
+    /// </Modified>
+    public async Task<bool> CreateAsync(UpdateDriverRequest item)
+    {
+        const string sql = @"
+            DECLARE @NewId INT = ISNULL((SELECT MAX(PK_EmployeeID) FROM [HRM.Employees]), 0) + 1;
+            DECLARE @FakeCode VARCHAR(32) = 'EMP_' + CAST(@NewId AS VARCHAR);
+
+            INSERT INTO [HRM.Employees] (
+                PK_EmployeeID,
+                EmployeeCode,
+                Name,
+                CreatedByUser,
+
+                FK_CompanyID,
+                DisplayName,
+                DriverLicense,
+                IssueLicenseDate,
+                ExpireLicenseDate,
+                IssueLicensePlace,
+                LicenseType,
+                Mobile,
+                CreatedDate,
+                IsDeleted,
+                IsLocked
+            ) VALUES (
+                @NewId,
+                @FakeCode,
+                @Name,
+                NEWID(),
+
+                @CompanyId,
+                @DisplayName,
+                @DriverLicense,
+                @IssueLicenseDate,
+                @ExpireLicenseDate,
+                @IssueLicensePlace,
+                @LicenseType,
+                @Mobile,
+                GETDATE(),
+                0,
+                0
+            );";
+
+        var parameters = new DynamicParameters();
+
+        var unsignedName = RemoveVietnameseTone(item.DisplayName);
+
+        parameters.Add("CompanyId", CompanyId, DbType.Int32);
+        parameters.Add("Name", unsignedName, DbType.String);
+        parameters.Add("DisplayName", item.DisplayName, DbType.String);
+        parameters.Add("DriverLicense", item.DriverLicense, DbType.String);
+        parameters.Add("IssueLicenseDate", item.IssueLicenseDate, DbType.DateTime);
+        parameters.Add("ExpireLicenseDate", item.ExpireLicenseDate, DbType.DateTime);
+        parameters.Add("IssueLicensePlace", item.IssueLicensePlace, DbType.String);
+        parameters.Add("LicenseType", item.LicenseType, DbType.Int32);
+        parameters.Add("Mobile", item.Mobile, DbType.String);
+
+        var rowsAffected = await _db.ExecuteAsync(sql, parameters);
+        return rowsAffected > 0;
+    }
+
+    /// <summary>
+    /// Dùng để loại bỏ dấu tiếng Việt trong tên lái xe, giúp tạo ra một tên không dấu để lưu vào cột Name.
+    /// </summary>
+    /// <param name="text">Nhận vào một chuỗi có thể chứa dấu tiếng Việt</param>
+    /// <returns>trả về chuỗi đã loại bỏ dấu tiếng Việt</returns>
+    /// <Modified>
+    /// Name Date Comments
+    /// dungbt 7/7/2026 created
+    /// </Modified>
+    private string RemoveVietnameseTone(string text)
+    {
+        if (string.IsNullOrWhiteSpace(text)) return text;
+
+        // Thay thế chữ Đ/đ (vì thư viện chuẩn không tự bóc tách được chữ này)
+        text = text.Replace("Đ", "D").Replace("đ", "d");
+
+        var normalizedString = text.Normalize(NormalizationForm.FormD);
+        var stringBuilder = new StringBuilder();
+
+        foreach (var c in normalizedString)
+        {
+            var unicodeCategory = CharUnicodeInfo.GetUnicodeCategory(c);
+            if (unicodeCategory != UnicodeCategory.NonSpacingMark)
+            {
+                stringBuilder.Append(c);
+            }
+        }
+
+        return stringBuilder.ToString().Normalize(NormalizationForm.FormC);
     }
 }

@@ -42,4 +42,14 @@ public interface IDriverRepository
     /// Lấy toàn bộ dữ liệu theo bộ lọc (không phân trang) dùng cho export.
     /// </summary>
     Task<IEnumerable<DriverDto>> GetForExportAsync(DriverExportRequest request);
+
+    /// <summary>
+    /// Lấy thông tin chi tiết lái xe theo ID.
+    /// </summary>
+    Task<DriverDto?> GetByIdAsync(int id);
+
+    /// <summary>
+    /// Tạo mới lái xe.
+    /// </summary>
+    Task<bool> CreateAsync(UpdateDriverRequest item);
 }

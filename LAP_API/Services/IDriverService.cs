@@ -41,4 +41,14 @@ public interface IDriverService
     /// Xuất danh sách lái xe ra file Excel.
     /// </summary>
     Task<FileStreamResult> ExportExcelAsync(DriverExportRequest request);
+
+    /// <summary>
+    /// Lấy thông tin chi tiết lái xe theo ID.
+    /// </summary>
+    Task<DriverDto?> GetByIdAsync(int id);
+
+    /// <summary>
+    /// Tạo mới lái xe.
+    /// </summary>
+    Task<bool> CreateAsync(UpdateDriverRequest item);
 }
