@@ -271,7 +271,7 @@ public class DriverService : BaseService, IDriverService
                 /// Căn lề
                 if (col == 2)
                 {
-                    cell.Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
+                    cell.Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
                 }
                 else /// Các cột còn lại
                 {
