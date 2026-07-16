@@ -194,6 +194,7 @@ public class DriverService : BaseService, IDriverService
             ws.Cells[currentRow, 1].Value = $"Từ khóa: {request.Keyword}";
             ws.Cells[currentRow, 1, currentRow, 9].Merge = true;
             ws.Cells[currentRow, 1].Style.Font.Italic = true;
+            ws.Cells[currentRow, 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
             currentRow++;
         }
 
@@ -202,6 +203,7 @@ public class DriverService : BaseService, IDriverService
             ws.Cells[currentRow, 1].Value = $"Số lái xe đã chọn: {request.DriverIds.Count}";
             ws.Cells[currentRow, 1, currentRow, 9].Merge = true;
             ws.Cells[currentRow, 1].Style.Font.Italic = true;
+            ws.Cells[currentRow, 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
             currentRow++;
         }
 
@@ -216,6 +218,7 @@ public class DriverService : BaseService, IDriverService
             ws.Cells[currentRow, 1].Value = $"Loại bằng đã chọn: {licenseTypesText}";
             ws.Cells[currentRow, 1, currentRow, 9].Merge = true;
             ws.Cells[currentRow, 1].Style.Font.Italic = true;
+            ws.Cells[currentRow, 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
             currentRow++;
         }
 
