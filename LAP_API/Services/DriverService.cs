@@ -172,9 +172,10 @@ public class DriverService : BaseService, IDriverService
 
         var data = (await _driverRepo.GetForExportAsync(request)).ToList();
         
-        /// Lấy danh sách loại bằng để có tên
-        var licenseTypes = (await _driverRepo.GetLicenseTypeLookupAsync())
-            .ToDictionary(x => x.Value, x => x.Name);
+        /// Lấy danh sách loại bằng để có tên (chỉ gọi DB nếu có truyền LicenseTypeIds)
+        var licenseTypes = request.LicenseTypeIds.Count > 0
+            ? (await _driverRepo.GetLicenseTypeLookupAsync()).ToDictionary(x => x.Value, x => x.Name)
+            : new Dictionary<int, string>();
 
         using var package = new ExcelPackage();
         var ws = package.Workbook.Worksheets.Add("Data");

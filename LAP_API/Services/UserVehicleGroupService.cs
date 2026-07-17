@@ -57,7 +57,14 @@ public class UserVehicleGroupService : BaseService, IUserVehicleGroupService
     public async Task<List<VehicleGroupNodeDto>> GetUnassignedGroupsAsync(Guid userId)
     {
         var allGroups = (await _unitOfWork.Groups.GetAllActiveAsync()).ToList();
+
+        if (allGroups.Count == 0)
+            return [];
+
         var assignedIds = (await _unitOfWork.UserVehicleGroups.GetAssignedGroupIdsAsync(userId)).ToHashSet();
+
+        if (assignedIds.Count == 0)
+            return BuildTree(allGroups, allGroups);
 
         /// Lọc ra nhóm chưa được gán
         var unassignedGroups = allGroups
@@ -79,7 +86,14 @@ public class UserVehicleGroupService : BaseService, IUserVehicleGroupService
     public async Task<List<VehicleGroupNodeDto>> GetAssignedGroupsAsync(Guid userId)
     {
         var allGroups = (await _unitOfWork.Groups.GetAllActiveAsync()).ToList();
+
+        if (allGroups.Count == 0)
+            return [];
+
         var assignedIds = (await _unitOfWork.UserVehicleGroups.GetAssignedGroupIdsAsync(userId)).ToHashSet();
+
+        if (assignedIds.Count == 0)
+            return [];
 
         /// Lọc ra nhóm đã được gán
         var assignedGroups = allGroups
@@ -115,8 +129,8 @@ public class UserVehicleGroupService : BaseService, IUserVehicleGroupService
     /// <param name="allGroups">Toàn bộ nhóm của công ty (dùng để tra cứu cha).</param>
     private static List<VehicleGroupNodeDto> BuildTree(List<Group> targetGroups, List<Group> allGroups)
     {
-        if (!targetGroups.Any())
-            return new List<VehicleGroupNodeDto>();
+        if (targetGroups.Count == 0)
+            return [];
 
         var allGroupsDict = allGroups.ToDictionary(g => g.Id);
         var nodesToInclude = new HashSet<int>();
