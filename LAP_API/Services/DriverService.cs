@@ -110,6 +110,17 @@ public class DriverService : BaseService, IDriverService
             if (items.Count == 0)
                 return true;
 
+            /// Xác thực dữ liệu xem -> thao tác: kiểm tra xem tất cả các ID lái xe có tồn tại trước khi cập nhật
+            foreach (var item in items)
+            {
+                var existingDriver = await _driverRepo.GetByIdAsync(item.Id);
+                if (existingDriver == null)
+                {
+                    _logger.LogWarning("Không tìm thấy lái xe có ID {Id} để cập nhật hoặc không có quyền thao tác.", item.Id);
+                    return false;
+                }
+            }
+
             return await _driverRepo.BatchUpdateAsync(items);
         }
         catch (Exception ex)
@@ -135,6 +146,11 @@ public class DriverService : BaseService, IDriverService
         {
             if (id <= 0)
                 return (false, "ID lái xe không hợp lệ");
+
+            /// Xác thực dữ liệu xem -> thao tác: kiểm tra lái xe có tồn tại và thuộc công ty không
+            var existingDriver = await _driverRepo.GetByIdAsync(id);
+            if (existingDriver == null)
+                return (false, "Không tìm thấy lái xe hoặc không có quyền thao tác");
 
             var success = await _driverRepo.SoftDeleteAsync(id);
             if (!success)
